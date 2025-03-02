@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useTransition, a } from "@react-spring/web";
+import Image from "next/image";
 
 interface MasonryItem {
   id: string | number;
@@ -85,23 +86,28 @@ function Masonry({ data }: MasonryProps) {
   return (
     <div
       ref={ref}
-      className="relative w-full h-full"
+      className="relative w-full h-full mx-auto"
       style={{ height: Math.max(...heights) }}
     >
       {transitions((style, item) => (
         <a.div
           style={style}
-          className="absolute p-[15px] [will-change:transform,width,height,opacity]"
+          className="absolute p-[15px] [will-change:transform,width,height,opacity] left-2 transform -translate-x-1/2"
         >
-          <div
-            className="relative w-full h-full overflow-hidden rounded-xl shadow-lg transition duration-300 ease-in-out hover:scale-105"
-            style={{
-              backgroundColor: "#ffffff",
-              backgroundImage: `url(${item.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
+          <div className="relative w-full h-full overflow-hidden rounded-xl shadow-lg transition duration-300 ease-in-out hover:scale-105">
+            <Image
+              src={item.image}
+              alt="Gallery image"
+              fill
+              className="object-cover"
+              sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/campus-life.jpg";
+                target.onerror = null;
+              }}
+            />
+          </div>
         </a.div>
       ))}
     </div>

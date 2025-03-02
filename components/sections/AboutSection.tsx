@@ -44,16 +44,16 @@ export default function AboutSection() {
   });
 
   const images = [
-    { id: 1, height: 400, image: "/img1.jpg" },
-    { id: 2, height: 300, image: "/img2.jpg" },
-    { id: 3, height: 450, image: "/img3.jpg" },
-    { id: 4, height: 350, image: "/img4.jpg" },
-    { id: 5, height: 380, image: "/img3.jpg" },
-    { id: 6, height: 300, image: "/img2.jpg" },
-    { id: 7, height: 450, image: "/img3.jpg" },
-    { id: 8, height: 350, image: "/img4.jpg" },
-    { id: 9, height: 380, image: "/img5.jpg" },
-    { id: 10, height: 420, image: "/img6.jpg" },
+    { id: 1, height: 400, image: "/campus-life.jpg" },
+    { id: 2, height: 300, image: "/img1.jpg" },
+    { id: 3, height: 450, image: "/campus-life.jpg" },
+    { id: 4, height: 350, image: "/img1.jpg" },
+    { id: 5, height: 380, image: "/campus-life.jpg" },
+    { id: 6, height: 300, image: "/img1.jpg" },
+    { id: 7, height: 450, image: "/campus-life.jpg" },
+    { id: 8, height: 350, image: "/img1.jpg" },
+    { id: 9, height: 380, image: "/campus-life.jpg" },
+    { id: 10, height: 420, image: "/img1.jpg" },
   ];
 
   return (
@@ -62,8 +62,13 @@ export default function AboutSection() {
       <div className="container mx-auto px-6 relative">
         <div className="flex flex-col items-center gap-12">
           {/* Images Section */}
-          <animated.div style={masonryFade} className="w-full max-w-6xl">
-            <Masonry data={images} />
+          <animated.div
+            style={masonryFade}
+            className="w-full max-w-6xl overflow-hidden"
+          >
+            <div className="max-h-[800px] overflow-hidden rounded-xl">
+              <Masonry data={images} />
+            </div>
           </animated.div>
 
           {/* Content Section */}

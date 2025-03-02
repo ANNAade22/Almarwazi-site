@@ -58,27 +58,6 @@ export default function HeroSection() {
     >
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row-reverse items-center">
-          <div className="md:w-1/2 mb-10 md:mb-0 text-right">
-            <animated.div style={fadeIn}>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                مرحبًا بكم في جامعة المروزي
-              </h1>
-              <p className="text-xl mb-8 font-arabic text-gray-700">
-                رسالة الجامعة: الكتاب والسنه علي فهم سلف الامة بالفصحى العربيه
-              </p>
-            </animated.div>
-            <animated.div
-              style={buttonAnimation}
-              className="flex flex-col sm:flex-row gap-4 justify-end"
-            >
-              <Link
-                href="/about"
-                className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-center"
-              >
-                تعرف علي الجامعة
-              </Link>
-            </animated.div>
-          </div>
           <div className="md:w-1/2 h-[500px] overflow-hidden">
             <animated.div
               style={{
@@ -97,6 +76,27 @@ export default function HeroSection() {
                 className="object-cover rounded-lg shadow-lg"
                 priority
               />
+            </animated.div>
+          </div>
+          <div className="md:w-1/2 mb-10 md:mb-0 text-right">
+            <animated.div style={fadeIn}>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                مرحبًا بكم في جامعة المروزي
+              </h1>
+              <p className="text-xl mb-8 font-arabic text-gray-700">
+                رسالة الجامعة: الكتاب والسنه علي فهم سلف الامة بالفصحى العربيه
+              </p>
+            </animated.div>
+            <animated.div
+              style={buttonAnimation}
+              className="flex flex-col sm:flex-row gap-4 justify-start"
+            >
+              <Link
+                href="/about"
+                className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-center"
+              >
+                تعرف علي الجامعة
+              </Link>
             </animated.div>
           </div>
         </div>

@@ -5,6 +5,8 @@
 :root {
   --primary-color: #2e4832;
   --secondary-color: #93a694;
+  /* --font-tajawal: "Tajawal", sans-serif; */
+  --font-cairo: "Cairo", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +19,11 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  /* font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  font-family: var(--font-tajawal);
+  direction: rtl; /* Right-to-left layout */
+  /* text-align: right; */
+  font-family: var(--font-cairo);
+  direction: rtl; /* Right-to-left layout */
+  text-align: right;
 }

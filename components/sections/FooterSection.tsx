@@ -90,7 +90,7 @@ export default function FooterSection() {
           <div>
             <h3 className="text-2xl font-bold mb-6">معلومات الاتصال</h3>
             <ul className="space-y-4 text-gray-300 text-right text-lg">
-              <li>الرياض، المملكة العربية السعودية</li>
+              <li>مقديشوا, الصومال</li>
               <li>هاتف: 966-11-000-0000+</li>
               <li>البريد الإلكتروني: info@almarwazi.edu</li>
             </ul>
@@ -99,7 +99,7 @@ export default function FooterSection() {
           {/* Social Links */}
           <div>
             <h3 className="text-2xl font-bold mb-6">تواصل معنا</h3>
-            <div className="flex justify-end gap-6">
+            <div className="flex justify-start gap-6">
               <Link
                 href="#"
                 className="text-gray-300 hover:text-secondary transition-colors transform hover:scale-110 duration-200"
@@ -145,7 +145,10 @@ export default function FooterSection() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 py-8 text-center text-gray-300 text-lg">
-          <p>© {new Date().getFullYear()} جميع الحقوق محفوظة لجامعة المروزي</p>
+          <p>
+            {" "}
+            جميع الحقوق محفوظة لجامعة المروزي ©{new Date().getFullYear()}{" "}
+          </p>
         </div>
       </animated.div>
     </footer>
