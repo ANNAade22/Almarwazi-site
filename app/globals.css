@@ -5,25 +5,34 @@
 :root {
   --primary-color: #2e4832;
   --secondary-color: #93a694;
-  /* --font-tajawal: "Tajawal", sans-serif; */
-  --font-cairo: "Cairo", sans-serif;
+  --foreground: #333333;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #333333;
+    --font-tajawal: "Tajawal", sans-serif;
   }
 }
 
+html,
 body {
   color: var(--foreground);
-  background: var(--background);
-  /* font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  background-color: #bacfbb !important;
   font-family: var(--font-tajawal);
   direction: rtl; /* Right-to-left layout */
-  /* text-align: right; */
-  font-family: var(--font-cairo);
-  direction: rtl; /* Right-to-left layout */
   text-align: right;
+
+  min-height: 100%;
+}
+
+/* Override any other background colors */
+.bg-gray-50,
+.bg-white {
+  background-color: #e3fae5 !important;
+}
+
+/* Make header white */
+header {
+  background-color: white !important;
 }

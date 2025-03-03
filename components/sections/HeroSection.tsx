@@ -55,6 +55,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       className="bg-white text-primary py-32 overflow-hidden min-h-screen flex items-center"
+      style={{ backgroundColor: "white" }}
     >
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row-reverse items-center">

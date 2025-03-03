@@ -8,7 +8,7 @@ interface LogoProps {
 export default function Logo({ className = "" }: LogoProps) {
   return (
     <Link href="/" className={`flex items-center ${className}`}>
-      <div className="relative h-12 w-12 md:h-16 md:w-16">
+      <div className="relative h-16 w-16 md:h-24 md:w-24">
         <Image
           src="/logo.png"
           alt="Almarwazi University Logo"
@@ -17,8 +17,8 @@ export default function Logo({ className = "" }: LogoProps) {
           priority
         />
       </div>
-      {/* <span className="text-xl md:text-2xl font-bold text-primary ml-3">
-        جامعة الامام محمد بن نصر المروزي
+      {/* <span className="text-xl md:text-2xl font-bold text-primary mr-3">
+        جامعة المروزي
       </span> */}
     </Link>
   );

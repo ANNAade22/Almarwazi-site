@@ -42,8 +42,7 @@ export default function FooterSection() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold mb-6">جامعة المروزي</h3>
             <p className="text-gray-300 leading-relaxed text-lg">
-              نحن ملتزمون بتقديم تعليم عالي الجودة يستند إلى المبادئ والقيم
-              الإسلامية.
+              رسالة الجامعة: الكتاب والسنه علي فهم سلف الامة بالفصحى العربيه
             </p>
           </div>
 

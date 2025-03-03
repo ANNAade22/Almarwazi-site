@@ -3,8 +3,9 @@
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import CoursesSection from "@/components/sections/CoursesSection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import TestimonialsSection from "@/components/sections/OurTeachers";
 import FooterSection from "@/components/sections/FooterSection";
+import OurTeachers from "@/components/sections/OurTeachers";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <CoursesSection />
-      <TestimonialsSection />
+      <OurTeachers />
       <FooterSection />
     </div>
   );

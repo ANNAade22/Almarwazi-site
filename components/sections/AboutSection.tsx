@@ -57,8 +57,12 @@ export default function AboutSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="py-32 bg-gray-50 relative">
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-gray-50"></div>
+    <section
+      ref={sectionRef}
+      className="py-50 relative"
+      style={{ backgroundColor: "#e3fae5" }}
+    >
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b [#e3fae5]"></div>
       <div className="container mx-auto px-6 relative">
         <div className="flex flex-col items-center gap-12">
           {/* Images Section */}

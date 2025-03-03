@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import "./globals.css";
 // import { Geist, Geist_Mono } from "next/font/google";
-import { Cairo } from "next/font/google";
 import "./globals.css"; // Ensure global styles are imported
 import { Tajawal } from "next/font/google";
 import "./globals.css";
@@ -15,15 +15,10 @@ import Header from "@/components/layout/Header";
 //   variable: "--font-geist-mono",
 //   subsets: ["latin"],
 // });
-// const tajawal = Tajawal({
-//   subsets: ["arabic"], // Loads only Arabic characters
-//   weight: ["400", "700"], // Choose required font weights
-//   variable: "--font-tajawal", // Optional: Define a CSS variable
-// });
-const cairo = Cairo({
-  subsets: ["arabic"],
-  weight: ["400", "700"], // Choose desired font weights
-  variable: "--font-cairo", // Define a CSS variable
+const tajawal = Tajawal({
+  subsets: ["arabic"], // Loads only Arabic characters
+  weight: ["400", "700"], // Choose required font weights
+  variable: "--font-tajawal", // Optional: Define a CSS variable
 });
 
 export const metadata: Metadata = {
@@ -38,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={cairo.variable}>
+      <body className={(tajawal.variable, "bg-gray-100")}>
         <Header />
         {children}
       </body>
