@@ -95,12 +95,6 @@ export default function CoursesSection() {
                   <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                     {course.description}
                   </p>
-                  <Link
-                    href={`/courses/${index + 1}`}
-                    className="text-primary font-medium hover:text-primary/80 transition-colors inline-flex items-center justify-center text-lg w-full"
-                  >
-                    اقرأ المزيد <span className="mr-2">←</span>
-                  </Link>
                 </div>
               </SpotlightCard>
             </animated.div>

@@ -42,11 +42,11 @@ const OurTeachers = () => {
         >
           أساتذتنا الكرام
         </h2>
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
           {teachers.map((teacher, index) => (
             <div
               key={index}
-              className={`relative group w-[250px] transition-all duration-700 hover:scale-105 ${
+              className={`relative group w-[150px] sm:w-[200px] md:w-[250px] transition-all duration-700 hover:scale-105 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-20"
@@ -57,11 +57,11 @@ const OurTeachers = () => {
                 <img
                   src={teacher.image}
                   alt={teacher.name}
-                  className="w-full h-[250px] object-cover"
+                  className="w-full h-[180px] sm:h-[220px] md:h-[250px] object-cover"
                 />
               </div>
               <div className="mt-3 text-center">
-                <h3 className="text-base font-semibold text-primary">
+                <h3 className="text-sm sm:text-base font-semibold text-primary">
                   {teacher.name}
                 </h3>
               </div>

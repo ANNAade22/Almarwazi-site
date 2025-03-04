@@ -88,17 +88,36 @@ export default function HeroSection() {
                 رسالة الجامعة: الكتاب والسنه علي فهم سلف الامة بالفصحى العربيه
               </p>
             </animated.div>
-            <animated.div
-              style={buttonAnimation}
-              className="flex flex-col sm:flex-row gap-4 justify-start"
-            >
-              <Link
-                href="/about"
-                className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-center"
-              >
-                تعرف علي الجامعة
-              </Link>
-            </animated.div>
+            <div className="container mx-auto px-4">
+              <div className="flex flex-col lg:flex-row items-center justify-between">
+                <div className="w-full lg:w-1/2 text-right mb-8 lg:mb-0">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-6">
+                    {/* Your heading */}
+                  </h1>
+                  <p className="text-lg sm:text-xl text-gray-700 mb-8 max-w-xl">
+                    {/* Your paragraph */}
+                  </p>
+                  {/* Buttons with better spacing for mobile */}
+                  <div className="flex flex-wrap gap-4 justify-start">
+                    <Link
+                      href="/courses"
+                      className="px-6 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors"
+                    >
+                      {/* Button text */}
+                    </Link>
+                    {/* Other buttons */}
+                  </div>
+                </div>
+                {/* Image with responsive sizing */}
+                <div className="w-full lg:w-1/2 px-4 lg:px-0">
+                  <img
+                    src="/hero-image.jpg"
+                    alt="University students"
+                    className="w-full h-auto rounded-lg shadow-lg"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

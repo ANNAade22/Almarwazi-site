@@ -6,6 +6,7 @@
   --primary-color: #2e4832;
   --secondary-color: #93a694;
   --foreground: #333333;
+  /* filled: red; */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,4 +36,21 @@ body {
 /* Make header white */
 header {
   background-color: white !important;
+}
+
+/* Add these responsive typography rules */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem !important;
+  }
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }

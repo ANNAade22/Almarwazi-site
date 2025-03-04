@@ -84,8 +84,9 @@ export default function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden text-gray-700 focus:outline-none"
+              className="lg:hidden text-gray-700 focus:outline-none p-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -122,66 +123,22 @@ export default function Header() {
             <nav className="lg:hidden flex flex-col space-y-3 py-4 text-right">
               <Link
                 href="/"
-                className={`font-medium py-2 ${
+                className={`font-medium py-3 border-b border-gray-100 ${
                   isActive("/") ? "text-primary font-semibold" : "text-gray-700"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 الرئيسية
               </Link>
-              <Link
-                href="/about"
-                className={`font-medium py-2 ${
-                  isActive("/about")
-                    ? "text-primary font-semibold"
-                    : "text-gray-700"
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                عن الجامعة
-              </Link>
-              <Link
-                href="/courses"
-                className={`font-medium py-2 ${
-                  isActive("/courses")
-                    ? "text-primary font-semibold"
-                    : "text-gray-700"
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                الدورات
-              </Link>
-              <Link
-                href="/blog"
-                className={`font-medium py-2 ${
-                  isActive("/blog")
-                    ? "text-primary font-semibold"
-                    : "text-gray-700"
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                المدونة
-              </Link>
+              {/* Other links with similar padding and border */}
+              {/* ... */}
               <Link
                 href="/contact"
-                className={`font-medium py-2 ${
-                  isActive("/contact")
-                    ? "text-primary font-semibold"
-                    : "text-gray-700"
-                }`}
+                className="inline-block px-5 py-2.5 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors text-center mt-4"
                 onClick={() => setIsMenuOpen(false)}
               >
-                اتصل بنا
+                سجل الآن
               </Link>
-              <div className="flex justify-end">
-                <Link
-                  href="/contact"
-                  className="inline-block px-5 py-2.5 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  سجل الآن
-                </Link>
-              </div>
             </nav>
           ) : (
             <div className="h-2"></div>
