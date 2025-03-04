@@ -7,7 +7,8 @@ import ImageUpload from "@/components/ImageUpload";
 export default function EditPostPage() {
   // Use the useParams hook to get the id parameter
   const params = useParams();
-  const postId = params.id as string;
+  const postId = Array.isArray(params.id) ? params.id[0] : params.id;
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [excerpt, setExcerpt] = useState("");
