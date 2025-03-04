@@ -1,16 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import ImageUpload from "@/components/ImageUpload";
 
-interface PostParams {
-  params: {
-    id: string;
-  };
-}
-
-export default function EditPostPage({ params }: PostParams) {
+export default function EditPostPage() {
+  // Use the useParams hook to get the id parameter
+  const params = useParams();
+  const postId = params.id as string;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [excerpt, setExcerpt] = useState("");
@@ -30,7 +27,7 @@ export default function EditPostPage({ params }: PostParams) {
         const { data, error } = await supabase
           .from("posts")
           .select("*")
-          .eq("id", params.id)
+          .eq("id", postId)
           .single();
 
         if (error) throw error;
@@ -53,7 +50,7 @@ export default function EditPostPage({ params }: PostParams) {
     };
 
     fetchPost();
-  }, [params.id]);
+  }, [postId]);
 
   const handleImageUploaded = (url: string) => {
     setImageUrl(url);
@@ -78,7 +75,7 @@ export default function EditPostPage({ params }: PostParams) {
           image_url: imageUrl,
           updated_at: new Date().toISOString(),
         })
-        .eq("id", params.id);
+        .eq("id", postId);
 
       if (error) throw error;
 
