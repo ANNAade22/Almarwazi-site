@@ -4,62 +4,25 @@ import Image from "next/image";
 import Link from "next/link";
 import FooterSection from "@/components/sections/FooterSection";
 
-// Initial blog posts data
-const initialBlogPosts = [
-  {
-    id: 1,
-    title: "أهمية التعليم الإسلامي في العصر الحديث",
-    excerpt:
-      "يناقش هذا المقال أهمية الحفاظ على القيم الإسلامية في التعليم المعاصر وكيفية تحقيق التوازن بين العلوم الحديثة والتعاليم الإسلامية.",
-    image: "/img1.jpg",
-    date: "15 مارس 2023",
-    author: "د. محمد أحمد",
-    authorAvatar: "/avatars/author1.jpg",
-    category: "تعليم",
-    slug: "importance-of-islamic-education",
-  },
-  {
-    id: 2,
-    title: "تحديات الطلاب المسلمين في الغرب",
-    excerpt:
-      "استكشاف التحديات التي يواجهها الطلاب المسلمون في الدول الغربية وكيفية الحفاظ على الهوية الإسلامية.",
-    image: "/img2.jpg",
-    date: "22 أبريل 2023",
-    author: "د. فاطمة علي",
-    authorAvatar: "/avatars/author2.jpg",
-    category: "مجتمع",
-    slug: "challenges-of-muslim-students",
-  },
-  {
-    id: 3,
-    title: "دور التكنولوجيا في تطوير التعليم الإسلامي",
-    excerpt:
-      "كيف يمكن الاستفادة من التقنيات الحديثة في تطوير وتحسين طرق تدريس العلوم الإسلامية وجعلها أكثر جاذبية للأجيال الجديدة.",
-    image: "/img3.jpg",
-    date: "10 مايو 2023",
-    author: "د. عبدالله محمود",
-    authorAvatar: "/avatars/author3.jpg",
-    category: "تكنولوجيا",
-    slug: "technology-in-islamic-education",
-  },
-  {
-    id: 4,
-    title: "تجربتي كطالب في جامعة المروزي",
-    excerpt:
-      "قصة نجاح أحد خريجي الجامعة وكيف ساهمت دراسته في تشكيل مساره المهني وتحقيق طموحاته.",
-    image: "/img4.jpg",
-    date: "5 يونيو 2023",
-    author: "أحمد الصالح",
-    authorAvatar: "/avatars/author4.jpg",
-    category: "قصص نجاح",
-    slug: "my-experience-at-marwazi",
-  },
-];
+// Add this interface at the top of your file, after the imports
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  category: string;
+  author: string;
+  image: string;
+  created_at: string;
+  status: string;
+}
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState("الكل");
   const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState(initialBlogPosts);
+  const [posts, setPosts] = useState<Post[]>([]); // Add type here
+  const [categories, setCategories] = useState(["الكل"]);
+
   useEffect(() => {
     const fetchPosts = async () => {
       setIsLoading(true);
@@ -69,30 +32,52 @@ export default function BlogPage() {
 
         const { data, error } = await supabase
           .from("posts")
-          .select("*")
+          .select(
+            `
+            id,
+            title,
+            content,
+            excerpt,
+            category,
+            author,
+            image_url,
+            created_at,
+            status
+          `
+          )
           .order("created_at", { ascending: false });
 
         if (error) throw error;
 
-        // Log the raw data to see the exact field names
-        console.log("Raw post data from DB:", data);
+        console.log("Raw data from database:", data);
 
         // Format the data to ensure all required fields are present
         const formattedPosts =
-          data?.map((post) => {
-            return {
-              ...post,
-              // Since the field in the database is just "image"
-              image: post.image || "/default-post-image.jpg",
-            };
-          }) || [];
+          data?.map((post) => ({
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            excerpt: post.excerpt,
+            category: post.category,
+            author: post.author,
+            image: post.image_url || "/default-post-image.jpg", // Note: changed from image to image_url
+            created_at: post.created_at,
+            status: post.status,
+          })) || [];
 
-        console.log("Formatted posts:", formattedPosts);
-        setPosts(formattedPosts.length > 0 ? formattedPosts : initialBlogPosts);
+        setPosts(formattedPosts);
+
+        // Extract unique categories from posts
+        const uniqueCategories = [
+          "الكل",
+          ...new Set(
+            formattedPosts.map((post) => post.category).filter(Boolean)
+          ),
+        ];
+        setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching posts:", error);
-        // Fallback to initial posts if there's an error
-        setPosts(initialBlogPosts);
+        setPosts([]);
       } finally {
         setIsLoading(false);
       }
@@ -101,13 +86,8 @@ export default function BlogPage() {
     fetchPosts();
   }, []);
 
-  const categories = ["الكل", "تعليم", "مجتمع", "تكنولوجيا", "قصص نجاح"];
-
-  // Update categories dynamically based on available post categories
-  const availableCategories = [
-    "الكل",
-    ...new Set(posts.map((post) => post.category)),
-  ];
+  // Remove this line as it's duplicated
+  // const categories = ["الكل", "تعليم", "مجتمع", "تكنولوجيا", "قصص نجاح"];
 
   const filteredPosts =
     activeCategory === "الكل"
@@ -125,14 +105,7 @@ export default function BlogPage() {
             <p className="text-xl text-gray-700 mb-8">
               آخر الأخبار والمقالات من جامعة المروزي
             </p>
-            <div className="flex justify-center">
-              <Link
-                href="/blog/admin"
-                className="px-6 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors"
-              >
-                لوحة إدارة المدونة
-              </Link>
-            </div>
+            <div className="flex justify-center"></div>
           </div>
         </div>
       </section>
@@ -141,7 +114,7 @@ export default function BlogPage() {
         <div className="container mx-auto px-6">
           <div className="flex justify-center mb-12 overflow-x-auto pb-2">
             <div className="flex space-x-reverse space-x-2">
-              {availableCategories.map((category) => (
+              {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
@@ -174,37 +147,48 @@ export default function BlogPage() {
                   key={post.id}
                   className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
                 >
+                  {/* Image component section */}
                   <div className="relative h-48">
                     <Image
                       src={post.image || "/default-post-image.jpg"}
-                      alt={post.title}
+                      alt={post.title || "Blog post"}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover"
+                      unoptimized={
+                        post.image && post.image.startsWith
+                          ? post.image.startsWith("http")
+                          : false
+                      }
                     />
                   </div>
                   <div className="p-6">
                     <div className="flex justify-between items-center mb-4">
                       <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                        {post.category}
+                        {post.category || "عام"}
                       </span>
                       <span className="text-gray-600 text-sm">
-                        {post.date || ""}
+                        {post.created_at
+                          ? new Date(post.created_at).toLocaleDateString(
+                              "ar-SA"
+                            )
+                          : ""}
                       </span>
                     </div>
                     <h3 className="text-xl font-bold text-primary mb-2">
-                      {post.title}
+                      {post.title || "بدون عنوان"}
                     </h3>
                     <p className="text-gray-700 mb-6 line-clamp-3">
-                      {post.excerpt}
+                      {post.excerpt || ""}
                     </p>
                     <div className="flex justify-between items-center">
                       <div className="flex items-center space-x-reverse space-x-2">
                         <span className="text-gray-700 text-sm font-medium">
-                          {post.author}
+                          {post.author || ""}
                         </span>
                       </div>
                       <Link
-                        href={`/blog/${post.slug || post.id}`}
+                        href={`/blog/${post.id || ""}`}
                         className="text-primary font-medium hover:underline"
                       >
                         اقرأ المزيد
