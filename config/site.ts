@@ -1,26 +1,35 @@
 export const siteConfig = {
-  name: "Marwazi University",
-  description: "Empowering minds, shaping futures",
+  name: "جامعة المروزي",
+  description: "تمكين العقول، تشكيل المستقبل",
   mainNav: [
     {
-      title: "Home",
+      title: "الرئيسية",
       href: "/",
+      mobileOnly: false,
     },
     {
-      title: "About",
+      title: "عن الجامعة",
       href: "/about",
+      mobileOnly: false,
     },
     {
-      title: "Courses",
+      title: "البرامج الدراسية",
       href: "/courses",
+      mobileOnly: false,
     },
     {
-      title: "Blog",
+      title: "المدونة",
       href: "/blog",
+      mobileOnly: false,
     },
     {
-      title: "Contact",
+      title: "اتصل بنا",
       href: "/contact",
+      mobileOnly: false,
     },
   ],
+  // Add mobile configuration
+  mobileBreakpoint: 768, // px
+  mobileMenuPosition: "right", // 'right' or 'left'
+  enableMobileMenu: true,
 };

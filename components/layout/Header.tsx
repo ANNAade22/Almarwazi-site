@@ -1,5 +1,5 @@
 "use client";
-import Logo from "../ui/Logo";
+import Logo from "../Logo";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -130,8 +130,50 @@ export default function Header() {
               >
                 الرئيسية
               </Link>
-              {/* Other links with similar padding and border */}
-              {/* ... */}
+              <Link
+                href="/about"
+                className={`font-medium py-3 border-b border-gray-100 ${
+                  isActive("/about")
+                    ? "text-primary font-semibold"
+                    : "text-gray-700"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                عن الجامعة
+              </Link>
+              <Link
+                href="/courses"
+                className={`font-medium py-3 border-b border-gray-100 ${
+                  isActive("/courses")
+                    ? "text-primary font-semibold"
+                    : "text-gray-700"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                الدورات
+              </Link>
+              <Link
+                href="/blog"
+                className={`font-medium py-3 border-b border-gray-100 ${
+                  isActive("/blog")
+                    ? "text-primary font-semibold"
+                    : "text-gray-700"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                المدونة
+              </Link>
+              <Link
+                href="/contact"
+                className={`font-medium py-3 border-b border-gray-100 ${
+                  isActive("/contact")
+                    ? "text-primary font-semibold"
+                    : "text-gray-700"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                اتصل بنا
+              </Link>
               <Link
                 href="/contact"
                 className="inline-block px-5 py-2.5 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors text-center mt-4"
