@@ -1,14 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
   images: {
-    domains: [
-      "localhost",
-      "xsgames.co",
-      "picsum.photos",
-      "images.unsplash.com",
-      "ouebbxsskpmusqpsvlyy.supabase.co", // Added Supabase storage domain
-    ],
+    domains: ["your-domain.com"], // Add any domains you need for Image component
   },
+  // Remove any eslint configuration from here if present
 };
 
 module.exports = nextConfig;

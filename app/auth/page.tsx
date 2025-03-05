@@ -3,47 +3,38 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import FooterSection from "../FooterSection";
+// Fix the import path for FooterSection
+import FooterSection from "../../components/sections/FooterSection";
 import { createClient } from "@supabase/supabase-js";
 
-// Initialize the Supabase client
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// Create the Supabase client but don't export it from the page
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError("");
+    setLoading(true);
+    setError(null);
 
     try {
-      // Regular Supabase authentication
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) {
-        setError("تاكد من كلمة السر او المستخدم");
-        setIsLoading(false);
-        return;
-      }
-
-      // Set login state in localStorage as backup
-      localStorage.setItem("isLoggedIn", "true");
-
-      // Redirect to admin dashboard
+      if (error) throw error;
       router.push("/blog/admin");
-    } catch (err: any) {
-      setError(err.message || "حدث خطأ أثناء المصادقة");
-      setIsLoading(false);
+    } catch (error: any) {
+      setError(error.message || "An error occurred during login");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -70,7 +61,7 @@ export default function AuthPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <label
                   htmlFor="email"
@@ -107,10 +98,10 @@ export default function AuthPage() {
 
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={loading}
                 className="w-full px-6 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors disabled:opacity-70"
               >
-                {isLoading ? (
+                {loading ? (
                   <span className="flex items-center justify-center">
                     <svg
                       className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
