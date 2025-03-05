@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["almarwazi.vercel.app"],
+    domains: [
+      "almarwazi.vercel.app",
+      "ouebbxsskpmusqpsvlyy.supabase.co", // Added Supabase storage domain
+    ],
   },
   eslint: {
     dirs: ["app", "components", "lib", "utils"],
