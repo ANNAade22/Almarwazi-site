@@ -9,7 +9,6 @@ const courses = [
     title: "علوم الشريعة الإسلامية",
     description:
       "دراسة متعمقة في أصول الفقه والتفسير والحديث والعقيدة الإسلامية.",
-
     duration: "4 سنوات",
     level: "بكالوريوس",
   },
@@ -17,7 +16,6 @@ const courses = [
     id: 2,
     title: "اللغة العربية وآدابها",
     description: "دراسة شاملة للغة العربية وقواعدها وآدابها وتاريخها.",
-
     duration: "4 سنوات",
     level: "بكالوريوس",
   },
@@ -25,7 +23,6 @@ const courses = [
     id: 3,
     title: "الدراسات الإسلامية المعاصرة",
     description: "تحليل القضايا المعاصرة من منظور إسلامي وتطوير حلول مبتكرة.",
-
     duration: "2 سنوات",
     level: "ماجستير",
   },
@@ -33,7 +30,6 @@ const courses = [
     id: 4,
     title: "تحفيظ القرآن الكريم",
     description: "برنامج متخصص في حفظ القرآن الكريم وتجويده وتفسيره.",
-
     duration: "3 سنوات",
     level: "دبلوم",
   },
@@ -41,7 +37,6 @@ const courses = [
     id: 5,
     title: "الفقه المقارن",
     description: "دراسة مقارنة للمذاهب الفقهية المختلفة وأصولها وتطبيقاتها.",
-
     duration: "2 سنوات",
     level: "ماجستير",
   },
@@ -49,13 +44,12 @@ const courses = [
     id: 6,
     title: "الدعوة والإرشاد",
     description: "تطوير مهارات الدعوة والإرشاد والتواصل الفعال في المجتمع.",
-
     duration: "4 سنوات",
     level: "بكالوريوس",
   },
 ];
 
-export default function CoursesPage() {
+export default function CoursesClient() {
   const [filter, setFilter] = useState("all");
 
   const filteredCourses =
@@ -116,14 +110,6 @@ export default function CoursesPage() {
                 key={course.id}
                 className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
               >
-                {/* <div className="relative h-48">
-                  <Image
-                    src={course.image}
-                    alt={course.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div> */}
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
@@ -137,9 +123,6 @@ export default function CoursesPage() {
                     {course.title}
                   </h3>
                   <p className="text-gray-700 mb-4">{course.description}</p>
-                  {/* <button className="w-full px-4 py-2 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors">
-                    عرض التفاصيل
-                  </button> */}
                 </div>
               </div>
             ))}

@@ -2,10 +2,15 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import ImageUpload from "@/components/ImageUpload";
+import ImageUpload from "../ImageUpload";
 
 interface FormData {
   title: string;
@@ -112,22 +117,34 @@ export default function NewPostPage() {
         .select();
 
       if (error) throw error;
-
+      // After successful creation
       showAlert("تم إنشاء المنشور بنجاح", "success");
 
-      // Redirect to admin dashboard after a short delay
+      // Force a cache revalidation
+      try {
+        await fetch("/api/revalidate?path=/blog", {
+          method: "GET",
+          cache: "no-store",
+        });
+      } catch (revalidateError) {
+        console.error("Revalidation error:", revalidateError);
+      }
+
+      // Wait a moment for Supabase to process the change
       setTimeout(() => {
+        router.refresh();
         router.push("/blog/admin");
       }, 1500);
     } catch (error: any) {
-      console.error("Error creating post:", error);
-      showAlert(
-        `حدث خطأ أثناء إنشاء المنشور: ${error?.message || "خطأ غير معروف"}`,
-        "error"
-      );
+      showAlert(`خطأ في إنشاء المنشور: ${error.message}`, "error");
+    } finally {
       setIsLoading(false);
     }
   };
+  // Look for duplicate handleSubmit functions in this file
+  // You should only have one handleSubmit function
+
+  // Wait a moment for Supabase to process the change
 
   if (!isAuthenticated) {
     return (

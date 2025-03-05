@@ -1,135 +1,191 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import ImageUpload from "@/components/ImageUpload";
+import Link from "next/link";
+import { createClient } from "@supabase/supabase-js";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import ImageUpload from "../../ImageUpload";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface EditPostClientProps {
   id: string;
 }
 
+interface FormData {
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author: string;
+  image_url: string;
+}
+
 export default function EditPostClient({ id }: EditPostClientProps) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [category, setCategory] = useState("");
-  const [author, setAuthor] = useState("");
-  const [status, setStatus] = useState<"published" | "draft">("draft");
+  const [formData, setFormData] = useState<FormData>({
+    title: "",
+    excerpt: "",
+    content: "",
+    category: "",
+    author: "",
+    image_url: "",
+  });
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [alertInfo, setAlertInfo] = useState({
+    open: false,
+    message: "",
+    severity: "info" as "success" | "error" | "info" | "warning",
+  });
   const router = useRouter();
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("posts")
-          .select("*")
-          .eq("id", id)
-          .single();
-
-        if (error) throw error;
-
-        if (data) {
-          setTitle(data.title || "");
-          setContent(data.content || "");
-          setExcerpt(data.excerpt || "");
-          setCategory(data.category || "");
-          setAuthor(data.author || "");
-          setStatus(data.status || "draft");
-          setImageUrl(data.image || "");
-        }
-      } catch (error) {
-        console.error("Error fetching post:", error);
-        setError("Failed to load post data");
-      } finally {
-        setIsLoading(false);
+    const checkAuthAndFetchPost = async () => {
+      // Check authentication
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        router.push("/auth");
+        return;
       }
+      setIsAuthenticated(true);
+
+      // Fetch post data
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        showAlert("خطأ في تحميل بيانات المنشور", "error");
+        return;
+      }
+
+      if (data) {
+        setFormData({
+          title: data.title,
+          excerpt: data.excerpt,
+          content: data.content,
+          category: data.category,
+          author: data.author,
+          image_url: data.image || "",
+        });
+      }
+      setIsLoading(false);
     };
 
-    fetchPost();
-  }, [id]);
+    checkAuthAndFetchPost();
+  }, [id, router]);
 
-  const handleImageUploaded = (url: string) => {
-    setImageUrl(url);
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleImageUploaded = (url: string) => {
+    setFormData((prev) => ({ ...prev, image_url: url }));
+  };
+
+  const showAlert = (
+    message: string,
+    severity: "success" | "error" | "info" | "warning"
+  ) => {
+    setAlertInfo({ open: true, message, severity });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSaving(true);
-    setError("");
-    setSuccess("");
+    setIsLoading(true);
 
     try {
       const { error } = await supabase
         .from("posts")
         .update({
-          title,
-          content,
-          excerpt,
-          category,
-          author,
-          status,
-          image: imageUrl,
+          title: formData.title,
+          excerpt: formData.excerpt,
+          content: formData.content,
+          category: formData.category,
+          author: formData.author,
+          image: formData.image_url,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id);
 
       if (error) throw error;
 
-      setSuccess("تم حفظ المنشور بنجاح");
+      showAlert("تم تحديث المنشور بنجاح", "success");
+
+      // Force a cache revalidation
+      try {
+        await fetch("/api/revalidate?path=/blog", { method: "GET" });
+      } catch (revalidateError) {
+        console.error("Revalidation error:", revalidateError);
+      }
+
+      // Use router.refresh() to update client-side data
+      router.refresh();
+
       setTimeout(() => {
         router.push("/blog/admin");
       }, 1500);
     } catch (error: any) {
-      console.error("Error updating post:", error);
-      setError(error.message || "حدث خطأ أثناء حفظ المنشور");
+      showAlert(`خطأ في تحديث المنشور: ${error.message}`, "error");
     } finally {
-      setIsSaving(false);
+      setIsLoading(false);
     }
   };
 
-  if (isLoading) {
+  if (!isAuthenticated || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="p-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">جاري التحميل...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <main dir="rtl" className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+    <main dir="rtl" className="min-h-screen bg-gray-50">
+      <Snackbar
+        open={alertInfo.open}
+        autoHideDuration={6000}
+        onClose={() => setAlertInfo((prev) => ({ ...prev, open: false }))}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity={alertInfo.severity} variant="filled">
+          {alertInfo.message}
+        </Alert>
+      </Snackbar>
+
+      <div className="bg-white shadow">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-primary">تعديل المنشور</h1>
-            <button
-              onClick={() => router.push("/blog/admin")}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800"
+            <Link
+              href="/blog/admin"
+              className="text-gray-600 hover:text-primary"
             >
-              العودة
-            </button>
+              العودة إلى لوحة الإدارة
+            </Link>
           </div>
+        </div>
+      </div>
 
-          {error && (
-            <div className="mb-6 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              {error}
-            </div>
-          )}
-
-          {success && (
-            <div className="mb-6 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-              {success}
-            </div>
-          )}
-
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white rounded-lg shadow-sm p-6 space-y-6"
-          >
+      <div className="container mx-auto px-6 py-8">
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Title */}
             <div>
               <label
                 htmlFor="title"
@@ -140,40 +196,73 @@ export default function EditPostClient({ id }: EditPostClientProps) {
               <input
                 type="text"
                 id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
 
+            {/* Image Upload */}
+            <div>
+              <label
+                htmlFor="image"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                صورة المنشور
+              </label>
+              <ImageUpload
+                onImageUploaded={handleImageUploaded}
+                existingImageUrl={formData.image_url}
+              />
+            </div>
+
+            {/* Category */}
+            <div>
+              <label
+                htmlFor="category"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                التصنيف
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+                <option value="">اختر التصنيف</option>
+                <option value="تعليم">تعليم</option>
+                <option value="مجتمع">مجتمع</option>
+                <option value="تكنولوجيا">تكنولوجيا</option>
+                <option value="قصص نجاح">قصص نجاح</option>
+                <option value="أخرى">أخرى</option>
+              </select>
+            </div>
+
+            {/* Excerpt */}
             <div>
               <label
                 htmlFor="excerpt"
                 className="block text-gray-700 font-medium mb-2"
               >
-                مقتطف
+                ملخص المنشور
               </label>
               <textarea
                 id="excerpt"
-                value={excerpt}
-                onChange={(e) => setExcerpt(e.target.value)}
+                name="excerpt"
+                value={formData.excerpt}
+                onChange={handleChange}
                 required
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
 
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                صورة المنشور
-              </label>
-              <ImageUpload
-                onImageUploaded={handleImageUploaded}
-                existingImageUrl={imageUrl}
-              />
-            </div>
-
+            {/* Content */}
             <div>
               <label
                 htmlFor="content"
@@ -183,77 +272,44 @@ export default function EditPostClient({ id }: EditPostClientProps) {
               </label>
               <textarea
                 id="content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+                name="content"
+                value={formData.content}
+                onChange={handleChange}
                 required
-                rows={10}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                rows={12}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label
-                  htmlFor="category"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  التصنيف
-                </label>
-                <input
-                  type="text"
-                  id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="author"
-                  className="block text-gray-700 font-medium mb-2"
-                >
-                  الكاتب
-                </label>
-                <input
-                  type="text"
-                  id="author"
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
-            </div>
-
+            {/* Author */}
             <div>
               <label
-                htmlFor="status"
+                htmlFor="author"
                 className="block text-gray-700 font-medium mb-2"
               >
-                الحالة
+                اسم الكاتب
               </label>
-              <select
-                id="status"
-                value={status}
-                onChange={(e) =>
-                  setStatus(e.target.value as "published" | "draft")
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              >
-                <option value="draft">مسودة</option>
-                <option value="published">منشور</option>
-              </select>
+              <input
+                type="text"
+                id="author"
+                name="author"
+                value={formData.author}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
             </div>
 
+            {/* Submit Button */}
             <div className="flex justify-end">
               <button
                 type="submit"
-                disabled={isSaving}
-                className="px-6 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors disabled:opacity-70"
+                disabled={isLoading}
+                className={`px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                {isSaving ? "جاري الحفظ..." : "حفظ التغييرات"}
+                {isLoading ? "جاري الحفظ..." : "حفظ التغييرات"}
               </button>
             </div>
           </form>

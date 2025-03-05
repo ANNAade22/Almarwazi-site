@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import Image from "next/image";
-import FooterSection from "@/components/sections/FooterSection";
+import FooterSection from "../FooterSection";
 
 export default function AboutPage() {
   const [isVisible, setIsVisible] = useState(false);

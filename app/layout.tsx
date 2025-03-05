@@ -4,7 +4,7 @@ import "./globals.css";
 import "./globals.css"; // Ensure global styles are imported
 import { Tajawal } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
+import Header from "../components/layout/Header";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",

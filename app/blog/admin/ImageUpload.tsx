@@ -1,6 +1,11 @@
 "use client";
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@supabase/supabase-js";
+
+// Initialize the Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export const supabase = createClient(supabaseUrl, supabaseKey);
 import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 
@@ -72,18 +77,23 @@ export default function ImageUpload({
           });
 
         if (error) {
-          console.error("Supabase storage error details:", error);
-          throw new Error(error.message || "Unknown upload error");
+          console.error("Supabase storage upload error:", error);
+          throw new Error(
+            `فشل رفع الصورة: ${error.message || "خطأ غير معروف"}`
+          );
+        }
+
+        if (!data) {
+          console.error("No data returned from upload");
+          throw new Error("لم يتم استلام بيانات من الخادم");
         }
         uploadData = data;
       } catch (uploadError: any) {
         console.error("Supabase storage error:", uploadError);
-        // Handle both Error objects and plain objects
         const errorMessage =
           uploadError.message ||
-          (typeof uploadError === "object"
-            ? JSON.stringify(uploadError)
-            : "Unknown error");
+          (uploadError.error && uploadError.error.message) ||
+          "خطأ غير معروف أثناء رفع الصورة";
         throw new Error(`فشل رفع الصورة: ${errorMessage}`);
       }
 

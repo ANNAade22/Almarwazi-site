@@ -3,8 +3,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import FooterSection from "@/components/sections/FooterSection";
-import { supabase } from "@/lib/supabaseClient";
+import FooterSection from "../FooterSection";
+import { createClient } from "@supabase/supabase-js";
+
+// Initialize the Supabase client
+export const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");

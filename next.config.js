@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   images: {
-    domains: ["ouebbxsskpmusqpsvlyy.supabase.co"],
+    domains: [
+      "localhost",
+      "xsgames.co",
+      "picsum.photos",
+      "images.unsplash.com",
+      "ouebbxsskpmusqpsvlyy.supabase.co", // Added Supabase storage domain
+    ],
   },
 };
 

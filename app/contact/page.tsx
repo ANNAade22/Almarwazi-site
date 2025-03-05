@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useSpring, animated } from "@react-spring/web";
-import FooterSection from "@/components/sections/FooterSection";
+import FooterSection from "../FooterSection";
 import Image from "next/image";
 
 export default function ContactPage() {

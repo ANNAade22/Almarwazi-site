@@ -2,7 +2,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@supabase/supabase-js";
+// import { deletePost } from "../actions/posts";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
@@ -41,8 +47,29 @@ export default function BlogAdminPage() {
   useEffect(() => {
     checkAuth();
     fetchPosts();
-  }, []);
+    // Set up real-time listener for posts table
+    const postsSubscription = supabase
+      .channel("posts-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "posts",
+        },
+        (payload) => {
+          console.log("Real-time update:", payload);
+          // Refresh posts data when any change occurs
+          fetchPosts();
+        }
+      )
+      .subscribe();
 
+    // Cleanup subscription on component unmount
+    return () => {
+      postsSubscription.unsubscribe();
+    };
+  }, []);
   const checkAuth = async () => {
     const {
       data: { session },
@@ -102,16 +129,52 @@ export default function BlogAdminPage() {
       postId: null,
     });
   };
-
+  // Then update your delete handler:
   const handleDeletePost = async (id: string) => {
     closeDeleteConfirmation();
+    console.log("Attempting to delete post with ID:", id);
 
     try {
-      const { error } = await supabase.from("posts").delete().eq("id", id);
+      // First check if the post exists
+      const { data: existingPost, error: checkError } = await supabase
+        .from("posts")
+        .select("id")
+        .eq("id", id)
+        .single();
 
-      if (error) throw error;
-      setPosts(posts.filter((post) => post.id !== id));
+      if (checkError) {
+        console.error("Error checking post existence:", checkError);
+        showAlert("خطأ في التحقق من وجود المنشور", "error");
+        return;
+      }
+
+      if (!existingPost) {
+        console.log("Post not found in database");
+        showAlert("المنشور غير موجود أو تم حذفه بالفعل", "error");
+        return;
+      }
+
+      console.log("Post found, proceeding with deletion");
+
+      // Perform the delete operation
+      const { error: deleteError } = await supabase
+        .from("posts")
+        .delete()
+        .eq("id", id);
+
+      if (deleteError) {
+        console.error("Supabase delete error:", deleteError);
+        throw deleteError;
+      }
+
+      console.log("Post successfully deleted from Supabase");
+
+      // Update local state after successful deletion
+      setPosts((currentPosts) => currentPosts.filter((post) => post.id !== id));
       showAlert("تم حذف المنشور بنجاح", "success");
+
+      // Refresh the posts list to ensure UI is in sync with database
+      fetchPosts();
     } catch (error: any) {
       console.error("Error deleting post:", error);
       showAlert(
@@ -129,7 +192,7 @@ export default function BlogAdminPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full size-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -161,47 +224,35 @@ export default function BlogAdminPage() {
       </Snackbar>
 
       {/* Delete Confirmation Dialog */}
-      <Snackbar
-        open={deleteConfirmation.open}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
-      >
-        <Alert
-          severity="error"
-          variant="filled"
-          sx={{
-            width: "100%",
-            fontSize: "1.1rem",
-            "& .MuiAlert-icon": {
-              fontSize: "2rem",
-            },
-            padding: "12px 16px",
-          }}
-          action={
-            <div className="flex space-x-2 space-x-reverse">
+      {deleteConfirmation.open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-xl font-bold mb-4">تأكيد الحذف</h3>
+            <p className="mb-6">
+              هل أنت متأكد من حذف هذا المنشور؟ لا يمكن التراجع عن هذا الإجراء.
+            </p>
+            <div className="flex justify-end space-x-reverse space-x-3">
+              <button
+                onClick={closeDeleteConfirmation}
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+              >
+                إلغاء
+              </button>
               <button
                 onClick={() =>
                   deleteConfirmation.postId &&
                   handleDeletePost(deleteConfirmation.postId)
                 }
-                className="bg-red-700 text-white px-3 py-1 rounded-md hover:bg-red-800 transition-colors"
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
               >
-                تأكيد
-              </button>
-              <button
-                onClick={closeDeleteConfirmation}
-                className="bg-gray-200 text-gray-800 px-3 py-1 rounded-md hover:bg-gray-300 transition-colors"
-              >
-                إلغاء
+                حذف
               </button>
             </div>
-          }
-        >
-          هل أنت متأكد من حذف هذا المنشور؟
-        </Alert>
-      </Snackbar>
+          </div>
+        </div>
+      )}
       <div className="bg-white shadow">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto py-4">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-primary">
               لوحة إدارة المدونة
@@ -221,7 +272,7 @@ export default function BlogAdminPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto py-8">
         <div className="mb-8 flex justify-between items-center">
           <h2 className="text-xl font-semibold text-gray-800">المنشورات</h2>
           <Link
