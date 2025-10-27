@@ -3,6 +3,13 @@ import Link from "next/link";
 import { useSpring, animated } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
 
+// Extend Window interface to include custom timeout property
+declare global {
+  interface Window {
+    footerResetTimeout?: ReturnType<typeof setTimeout>;
+  }
+}
+
 export default function FooterSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [showFooter, setShowFooter] = useState(false);
@@ -33,7 +40,7 @@ export default function FooterSection() {
       }
     };
 
-    const handleWheel = (e) => {
+    const handleWheel = (e: WheelEvent) => {
       if (isAtBottom && e.deltaY > 0) {
         e.preventDefault();
 

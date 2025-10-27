@@ -8,8 +8,8 @@ import FooterSection from "../../components/sections/FooterSection";
 import { createClient } from "@supabase/supabase-js";
 
 // Create the Supabase client but don't export it from the page
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function AuthPage() {

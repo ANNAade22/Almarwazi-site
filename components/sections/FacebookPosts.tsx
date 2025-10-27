@@ -28,6 +28,7 @@ interface FacebookPostsData {
     id: string;
     link: string;
   };
+  error?: string;
 }
 
 export default function FacebookPosts() {
