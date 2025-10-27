@@ -25,12 +25,12 @@ function Masonry({ data }: MasonryProps) {
 
   useEffect(() => {
     const updateColumns = () => {
-      if (window.matchMedia("(min-width: 1500px)").matches) {
-        setColumns(5);
-      } else if (window.matchMedia("(min-width: 1000px)").matches) {
+      if (window.matchMedia("(min-width: 1200px)").matches) {
         setColumns(4);
-      } else if (window.matchMedia("(min-width: 600px)").matches) {
+      } else if (window.matchMedia("(min-width: 768px)").matches) {
         setColumns(3);
+      } else if (window.matchMedia("(min-width: 480px)").matches) {
+        setColumns(2);
       } else {
         setColumns(1);
       }
@@ -61,13 +61,13 @@ function Masonry({ data }: MasonryProps) {
     const gridItems = data.map((child) => {
       const column = heights.indexOf(Math.min(...heights));
       const x = (width / columns) * column;
-      const y = (heights[column] += child.height / 2) - child.height / 2;
+      const y = (heights[column] += child.height / 2.5) - child.height / 2.5;
       return {
         ...child,
         x,
         y,
         width: width / columns,
-        height: child.height / 2,
+        height: child.height / 2.5,
       };
     });
     return [heights, gridItems];
@@ -92,15 +92,15 @@ function Masonry({ data }: MasonryProps) {
       {transitions((style, item) => (
         <a.div
           style={style}
-          className="absolute p-[15px] [will-change:transform,width,height,opacity] left-2 transform -translate-x-1/2"
+          className="absolute p-2 sm:p-3 lg:p-4 [will-change:transform,width,height,opacity] left-2 transform -translate-x-1/2"
         >
-          <div className="relative w-full h-full overflow-hidden rounded-xl shadow-lg transition duration-300 ease-in-out hover:scale-105">
+          <div className="relative w-full h-full overflow-hidden rounded-lg sm:rounded-xl shadow-lg transition duration-300 ease-in-out hover:scale-105">
             <Image
               src={item.image}
               alt="Gallery image"
               fill
               className="object-cover"
-              sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = "/campus-life.jpg";

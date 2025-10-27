@@ -33,7 +33,7 @@ export default function AboutPage() {
   });
 
   return (
-    <main dir="rtl">
+    <main dir="rtl" className="pt-20">
       <section className="bg-[#e3fae5] py-20">
         <div className="container mx-auto px-6">
           <h1 className="text-5xl font-bold text-primary text-center mb-12">
@@ -53,30 +53,120 @@ export default function AboutPage() {
       <section ref={sectionRef} className="py-16">
         <div className="container mx-auto px-6">
           <animated.div style={fadeIn}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold text-primary mb-6">
-                  رؤيتنا ورسالتنا
-                </h2>
-                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                  رؤيتنا هي أن نكون مؤسسة تعليمية رائدة عالمياً تجمع بين التميز
-                  الأكاديمي والقيم الإسلامية، ونسعى لتخريج قادة يساهمون في تنمية
-                  مجتمعاتهم وبناء مستقبل أفضل.
-                </p>
-                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                  رسالتنا هي توفير بيئة تعليمية متميزة تشجع على الإبداع
-                  والابتكار، وتعزز القيم الأخلاقية والروحية، وتمكن الطلاب من
-                  اكتساب المعرفة والمهارات اللازمة للنجاح في حياتهم المهنية
-                  والشخصية.
-                </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+              <div className="relative">
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/10 rounded-full"></div>
+                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-secondary/20 rounded-full"></div>
+                <div className="relative z-10">
+                  <h2 className="text-3xl font-bold text-primary mb-6">
+                    رؤيتنا ورسالتنا
+                  </h2>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    رؤيتنا هي أن نكون مؤسسة تعليمية رائدة عالمياً تجمع بين
+                    التميز الأكاديمي والقيم الإسلامية، ونسعى لتخريج قادة يساهمون
+                    في تنمية مجتمعاتهم وبناء مستقبل أفضل.
+                  </p>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    رسالتنا هي توفير بيئة تعليمية متميزة تشجع على الإبداع
+                    والابتكار، وتعزز القيم الأخلاقية والروحية، وتمكن الطلاب من
+                    اكتساب المعرفة والمهارات اللازمة للنجاح في حياتهم المهنية
+                    والشخصية.
+                  </p>
+                </div>
               </div>
-              <div className="relative h-[400px] rounded-xl overflow-hidden">
-                <Image
-                  src="/campus-life.jpg"
-                  alt="حرم جامعة المروزي"
-                  fill
-                  className="object-cover"
-                />
+              {/* Multiple Images Layout */}
+              <div className="relative">
+                {/* Main Large Image */}
+                <div className="relative h-[300px] rounded-2xl overflow-hidden group mb-6">
+                  <Image
+                    src="/campus-life.jpg"
+                    alt="حرم جامعة المروزي"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">حرم جامعي متميز</h3>
+                    <p className="text-white/90">بيئة تعليمية ملهمة ومتطورة</p>
+                  </div>
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-full">
+                    <span className="text-primary font-semibold text-sm">
+                      جامعة المروزي
+                    </span>
+                  </div>
+                </div>
+
+                {/* Smaller Images Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Image 1 */}
+                  <div className="relative h-[120px] rounded-xl overflow-hidden group">
+                    <Image
+                      src="/campus-life.jpg"
+                      alt="مكتبة الجامعة"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <p className="text-white text-sm font-medium">
+                        مكتبة الجامعة
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Image 2 */}
+                  <div className="relative h-[120px] rounded-xl overflow-hidden group">
+                    <Image
+                      src="/campus-life.jpg"
+                      alt="قاعات الدراسة"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <p className="text-white text-sm font-medium">
+                        قاعات الدراسة
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Image 3 */}
+                  <div className="relative h-[120px] rounded-xl overflow-hidden group">
+                    <Image
+                      src="/campus-life.jpg"
+                      alt="المختبرات"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <p className="text-white text-sm font-medium">
+                        المختبرات
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Image 4 */}
+                  <div className="relative h-[120px] rounded-xl overflow-hidden group">
+                    <Image
+                      src="/campus-life.jpg"
+                      alt="المرافق الرياضية"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <p className="text-white text-sm font-medium">
+                        المرافق الرياضية
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating decorative elements */}
+                <div className="absolute -top-2 -left-2 w-8 h-8 bg-primary/20 rounded-full"></div>
+                <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-secondary/30 rounded-full"></div>
+                <div className="absolute top-1/2 -right-4 w-4 h-4 bg-primary/15 rounded-full"></div>
               </div>
             </div>
           </animated.div>

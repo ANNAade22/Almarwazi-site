@@ -26,10 +26,23 @@ export default function BlogClient() {
     const fetchPosts = async () => {
       setIsLoading(true);
       try {
+        // Check if Supabase environment variables are configured
+        if (
+          !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+          !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        ) {
+          console.warn(
+            "Supabase environment variables not configured. Blog functionality disabled."
+          );
+          setPosts([]);
+          setCategories(["الكل"]);
+          return;
+        }
+
         const { createClient } = await import("@supabase/supabase-js");
         const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+          process.env.NEXT_PUBLIC_SUPABASE_URL,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
         );
 
         const { data, error } = await supabase
@@ -39,22 +52,18 @@ export default function BlogClient() {
 
         if (error) throw error;
 
-        console.log("Raw data from Supabase:", data); // Add this line to debug
-
         const formattedPosts =
           data?.map((post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
             excerpt: post.excerpt,
-            category: post.category || "عام", // Provide default category
+            category: post.category || "عام",
             author: post.author,
             image: post.image || "/default-post-image.jpg",
             created_at: post.created_at,
             status: post.status,
           })) || [];
-
-        console.log("Formatted posts:", formattedPosts); // Add this line to debug
 
         // Extract unique categories with proper handling and sorting
         const uniqueCategories = [
@@ -68,12 +77,12 @@ export default function BlogClient() {
           ).sort((a, b) => a.localeCompare(b, "ar")),
         ];
 
-        console.log("Unique categories:", uniqueCategories);
         setPosts(formattedPosts);
         setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching posts:", error);
         setPosts([]);
+        setCategories(["الكل"]);
       } finally {
         setIsLoading(false);
       }
@@ -88,7 +97,7 @@ export default function BlogClient() {
       : posts.filter((post) => post.category === activeCategory);
 
   return (
-    <main dir="rtl">
+    <main dir="rtl" className="pt-20">
       <section className="bg-[#e3fae5] py-20">
         <div className="container mx-auto px-6">
           <h1 className="text-5xl font-bold text-primary text-center mb-6">
@@ -125,6 +134,19 @@ export default function BlogClient() {
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+          ) : !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+            !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? (
+            <div className="text-center py-20">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 max-w-md mx-auto">
+                <div className="text-yellow-600 text-4xl mb-4">⚠️</div>
+                <h3 className="text-xl font-bold text-yellow-800 mb-2">
+                  المدونة غير متاحة حالياً
+                </h3>
+                <p className="text-yellow-700">
+                  تم تعطيل المدونة مؤقتاً. يرجى المحاولة لاحقاً.
+                </p>
+              </div>
             </div>
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">

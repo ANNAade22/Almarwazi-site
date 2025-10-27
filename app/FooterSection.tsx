@@ -5,14 +5,92 @@ import { useState, useEffect, useRef } from "react";
 
 export default function FooterSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const [showFooter, setShowFooter] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    let wheelDelta = 0;
+    let isAtBottom = false;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      // Check if we're at the bottom of the page
+      isAtBottom = currentScrollY + windowHeight >= documentHeight - 10;
+
+      if (isAtBottom) {
+        // Show footer when at bottom, but keep it hidden initially
+        setShowFooter(true);
+        setScrollProgress(0); // Start completely hidden
+      } else {
+        // Hide footer when not at bottom
+        setShowFooter(false);
+        setScrollProgress(0);
+        wheelDelta = 0; // Reset wheel delta
+      }
+    };
+
+    const handleWheel = (e) => {
+      if (isAtBottom && e.deltaY > 0) {
+        e.preventDefault();
+
+        // Accumulate wheel delta for smoother effect
+        wheelDelta += e.deltaY;
+        const maxDelta = 200; // Reduced for more responsive effect
+        const progress = Math.min(wheelDelta / maxDelta, 1);
+
+        setShowFooter(true);
+        setScrollProgress(progress);
+
+        // Clear any existing timeout
+        if (window.footerResetTimeout) {
+          clearTimeout(window.footerResetTimeout);
+        }
+
+        // Gradually reset the delta for smooth return - slower reset
+        window.footerResetTimeout = setTimeout(() => {
+          wheelDelta = Math.max(0, wheelDelta - 20); // Slower reset
+          if (wheelDelta > 0) {
+            const newProgress = Math.min(wheelDelta / maxDelta, 1);
+            setScrollProgress(newProgress);
+            // Continue the reset process
+            window.footerResetTimeout = setTimeout(() => {
+              wheelDelta = Math.max(0, wheelDelta - 20);
+              if (wheelDelta > 0) {
+                const newProgress = Math.min(wheelDelta / maxDelta, 1);
+                setScrollProgress(newProgress);
+              } else {
+                setScrollProgress(0);
+              }
+            }, 100);
+          } else {
+            setScrollProgress(0);
+          }
+        }, 200); // Longer delay before starting reset
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("wheel", handleWheel);
+      if (window.footerResetTimeout) {
+        clearTimeout(window.footerResetTimeout);
+      }
+    };
+  }, []);
+
+  // Keep the intersection observer for the fade-in animation
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(entry.target);
         }
       },
       { threshold: 0.1 }
@@ -31,25 +109,44 @@ export default function FooterSection() {
     config: { tension: 280, friction: 60 },
   });
 
+  const slideIn = useSpring({
+    transform: showFooter
+      ? `translateY(${(1 - scrollProgress) * 100}%)`
+      : "translateY(100%)",
+    config: {
+      tension: 500,
+      friction: 15,
+      mass: 0.3,
+    },
+  });
+
   return (
-    <footer ref={sectionRef} className="bg-primary text-white">
+    <animated.footer
+      ref={sectionRef}
+      style={slideIn}
+      className="fixed bottom-0 left-0 right-0 bg-primary text-white z-50"
+    >
       <animated.div
         style={fadeIn}
         className="container mx-auto px-6 font-arabic"
       >
-        <div className="py-16 grid grid-cols-1 md:grid-cols-4 gap-12 text-right">
+        <div className="py-8 sm:py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 text-right">
           {/* About Section */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold mb-6">جامعة المروزي</h3>
-            <p className="text-gray-300 leading-relaxed text-lg">
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
+              جامعة المروزي
+            </h3>
+            <p className="text-gray-300 leading-relaxed text-sm sm:text-base lg:text-lg">
               رسالة الجامعة: الكتاب والسنه علي فهم سلف الامة بالفصحى العربيه
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-2xl font-bold mb-6">روابط سريعة</h3>
-            <ul className="space-y-4 text-right text-lg">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
+              روابط سريعة
+            </h3>
+            <ul className="space-y-3 sm:space-y-4 text-right text-sm sm:text-base lg:text-lg">
               <li>
                 <Link
                   href="/about"
@@ -87,8 +184,10 @@ export default function FooterSection() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-6">معلومات الاتصال</h3>
-            <ul className="space-y-4 text-gray-300 text-right text-lg">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
+              معلومات الاتصال
+            </h3>
+            <ul className="space-y-3 sm:space-y-4 text-gray-300 text-right text-sm sm:text-base lg:text-lg">
               <li>مقديشوا, الصومال</li>
               <li>هاتف: 966-11-000-0000+</li>
               <li>البريد الإلكتروني: info@almarwazi.edu</li>
@@ -97,8 +196,10 @@ export default function FooterSection() {
 
           {/* Social Links */}
           <div>
-            <h3 className="text-2xl font-bold mb-6">تواصل معنا</h3>
-            <div className="flex justify-start gap-6">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
+              تواصل معنا
+            </h3>
+            <div className="flex justify-start gap-4 sm:gap-6">
               <Link
                 href="#"
                 className="text-gray-300 hover:text-secondary transition-colors transform hover:scale-110 duration-200"
@@ -143,10 +244,10 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-700 py-8 text-center text-gray-300 text-lg">
+        <div className="border-t border-gray-700 py-4 sm:py-6 lg:py-8 text-center text-gray-300 text-sm sm:text-base lg:text-lg">
           <p>جميع الحقوق محفوظة لجامعة المروزي ©{new Date().getFullYear()}</p>
         </div>
       </animated.div>
-    </footer>
+    </animated.footer>
   );
 }

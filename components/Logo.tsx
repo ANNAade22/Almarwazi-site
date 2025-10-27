@@ -10,7 +10,7 @@ export default function Logo({ className = "" }: LogoProps) {
     <Link href="/" className={`flex items-center ${className}`}>
       <div className="relative h-16 w-16 md:h-24 md:w-24">
         <Image
-          src="/logo.png"
+          src="/download-removebg-preview (2).png"
           alt="Almarwazi University Logo"
           fill
           className="object-contain"

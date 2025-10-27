@@ -72,7 +72,7 @@ export default function ContactPage() {
   });
 
   return (
-    <main dir="rtl">
+    <main dir="rtl" className="pt-20">
       {/* Hero Section */}
       <section className="relative bg-[#e3fae5] py-24">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>

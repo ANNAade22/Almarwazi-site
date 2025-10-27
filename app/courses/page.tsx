@@ -64,7 +64,7 @@ export default function CoursesPage() {
       : courses.filter((course) => course.level === filter);
 
   return (
-    <main dir="rtl">
+    <main dir="rtl" className="pt-20">
       <section className="bg-[#e3fae5] py-20">
         <div className="container mx-auto px-6">
           <h1 className="text-5xl font-bold text-primary text-center mb-12">

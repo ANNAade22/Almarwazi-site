@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../components/ui/LogoLoop.css";
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -112,7 +114,7 @@ main {
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground: #333333;
-    --font-tajawal: "Tajawal", sans-serif;
+    --font-amiri: "Amiri", serif;
   }
 }
 
@@ -120,7 +122,7 @@ html,
 body {
   color: var(--foreground);
   background-color: #bacfbb !important;
-  font-family: var(--font-tajawal);
+  font-family: var(--font-amiri);
   direction: rtl; /* Right-to-left layout */
   text-align: right;
 
@@ -133,10 +135,7 @@ body {
   background-color: #e3fae5 !important;
 }
 
-/* Make header white */
-header {
-  background-color: white !important;
-}
+/* Header styling removed for glass effect */
 
 /* Add these responsive typography rules */
 @media (max-width: 640px) {
@@ -215,4 +214,134 @@ header {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
+}
+
+/* Partner Universities Section Styling */
+.partner-logos .logoloop__item {
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  margin: 0 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--logoloop-logoHeight, 70px);
+  flex-shrink: 0;
+}
+
+.partner-logos .logoloop__item:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.partner-logos img {
+  filter: grayscale(100%) opacity(0.7);
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.partner-logos img:hover {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.1);
+}
+
+.partner-logos .logoloop__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.partner-logos .logoloop__link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.partner-logos .logoloop__node {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure proper logo display */
+.partner-logos .logoloop__list {
+  display: flex;
+  align-items: center;
+  gap: var(--logoloop-gap, 80px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.partner-logos .logoloop__track {
+  display: flex;
+  align-items: center;
+  will-change: transform;
+}
+
+/* Ensure minimum width for logo items */
+.partner-logos .logoloop__item {
+  min-width: 140px;
+}
+
+/* University Stats Section Styling */
+.stats-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for stats numbers */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-count-up {
+  animation: countUp 0.6s ease-out;
+}
+
+/* CountUp component styling */
+.count-up-text {
+  display: inline-block;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.count-up-text:hover {
+  transform: scale(1.05);
+}
+
+/* Stats icons styling */
+.stats-card svg {
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover svg {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
