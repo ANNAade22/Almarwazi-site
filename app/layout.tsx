@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-// import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css"; // Ensure global styles are imported
 import { Amiri } from "next/font/google";
-import "./globals.css";
-import Navigation from "../components/layout/Navigation";
-import { HeroUIProvider } from "@heroui/react";
+import Navigation from "./components/layout/Navigation";
+import { HeroUIProvider } from "./components/providers/HeroUIProvider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -34,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={(amiri.variable, "bg-gray-100")}>
+      <body className={`${amiri.variable} bg-gray-100`}>
         <HeroUIProvider>
           <Navigation />
           {children}
