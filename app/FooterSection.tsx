@@ -1,9 +1,38 @@
 "use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function FooterSection() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Show footer when user scrolls near the bottom (within 300px)
+      const distanceFromBottom = documentHeight - (scrollTop + windowHeight);
+      
+      if (distanceFromBottom < 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check initial state
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <footer className="bg-primary text-white w-full mt-0">
+    <footer
+      className={`bg-primary text-white w-full transition-transform duration-700 ease-out ${
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+      }`}
+    >
       <div className="container mx-auto px-6 font-arabic">
         <div className="py-8 sm:py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 text-right">
           {/* About Section */}
