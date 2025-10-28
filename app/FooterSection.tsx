@@ -118,7 +118,7 @@ export default function FooterSection() {
 
   const slideIn = useSpring({
     transform: showFooter
-      ? `translateY(${(1 - scrollProgress) * 100 - 20}%)`
+      ? `translateY(${(1 - scrollProgress) * 100}%)`
       : "translateY(100%)",
     config: {
       tension: 500,
@@ -128,15 +128,19 @@ export default function FooterSection() {
   });
 
   return (
-    <animated.footer
-      ref={sectionRef}
-      style={slideIn}
-      className="fixed bottom-0 left-0 right-0 bg-primary text-white z-50"
-    >
-      <animated.div
-        style={fadeIn}
-        className="container mx-auto px-6 font-arabic"
+    <>
+      {/* Spacer to prevent content from going behind fixed footer */}
+      <div className="h-[500px] bg-primary"></div>
+      
+      <animated.footer
+        ref={sectionRef}
+        style={slideIn}
+        className="fixed bottom-0 left-0 right-0 bg-primary text-white z-50"
       >
+        <animated.div
+          style={fadeIn}
+          className="container mx-auto px-6 font-arabic"
+        >
         <div className="py-8 sm:py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 text-right">
           {/* About Section */}
           <div className="space-y-3 sm:space-y-4">
@@ -189,17 +193,15 @@ export default function FooterSection() {
             </ul>
           </div>
 
-          {/* Campus Info */}
+          {/* Contact Info */}
           <div>
             <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
-              الحرم الجامعي
+              معلومات الاتصال
             </h3>
             <ul className="space-y-3 sm:space-y-4 text-gray-300 text-right text-sm sm:text-base lg:text-lg">
-              <li>الحرم الرئيسي - الرياض</li>
-              <li>حرم جدة - جدة</li>
-              <li>حرم الدمام - الدمام</li>
-              <li>حرم أبها - أبها</li>
-              <li className="mt-4">marwazi-university.edu</li>
+              <li>مقديشوا, الصومال</li>
+              <li>هاتف: 966-11-000-0000+</li>
+              <li>البريد الإلكتروني: info@almarwazi.edu</li>
             </ul>
           </div>
 
@@ -258,5 +260,6 @@ export default function FooterSection() {
         </div>
       </animated.div>
     </animated.footer>
+    </>
   );
 }
