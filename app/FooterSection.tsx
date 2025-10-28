@@ -11,10 +11,10 @@ export default function FooterSection() {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       
-      // Show footer when user scrolls near the bottom (within 300px)
+      // Show footer when user scrolls near the bottom (within 600px)
       const distanceFromBottom = documentHeight - (scrollTop + windowHeight);
       
-      if (distanceFromBottom < 300) {
+      if (distanceFromBottom < 600) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -29,7 +29,7 @@ export default function FooterSection() {
 
   return (
     <footer
-      className={`bg-primary text-white w-full transition-transform duration-700 ease-out ${
+      className={`bg-primary text-white w-full transition-all duration-500 ease-out ${
         isVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
       }`}
     >
