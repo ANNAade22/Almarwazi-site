@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function FooterSection() {
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-primary text-white w-full mt-0">
       <div className="container mx-auto px-6 font-arabic">
         <div className="py-8 sm:py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 text-right">
           {/* About Section */}
