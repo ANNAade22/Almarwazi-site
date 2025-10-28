@@ -118,7 +118,7 @@ export default function FooterSection() {
 
   const slideIn = useSpring({
     transform: showFooter
-      ? `translateY(${(1 - scrollProgress) * 100}%)`
+      ? `translateY(${(1 - scrollProgress) * 100 - 20}%)`
       : "translateY(100%)",
     config: {
       tension: 500,
@@ -189,15 +189,17 @@ export default function FooterSection() {
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Campus Info */}
           <div>
             <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
-              معلومات الاتصال
+              الحرم الجامعي
             </h3>
             <ul className="space-y-3 sm:space-y-4 text-gray-300 text-right text-sm sm:text-base lg:text-lg">
-              <li>مقديشوا, الصومال</li>
-              <li>هاتف: 966-11-000-0000+</li>
-              <li>البريد الإلكتروني: info@almarwazi.edu</li>
+              <li>الحرم الرئيسي - الرياض</li>
+              <li>حرم جدة - جدة</li>
+              <li>حرم الدمام - الدمام</li>
+              <li>حرم أبها - أبها</li>
+              <li className="mt-4">marwazi-university.edu</li>
             </ul>
           </div>
 
