@@ -79,7 +79,7 @@ export default function AboutPage() {
                 {/* Main Large Image */}
                 <div className="relative h-[300px] rounded-2xl overflow-hidden group mb-6">
                   <Image
-                    src="/campus-life.jpg"
+                    src="/about01.jpg"
                     alt="حرم جامعة المروزي"
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -101,7 +101,7 @@ export default function AboutPage() {
                   {/* Image 1 */}
                   <div className="relative h-[120px] rounded-xl overflow-hidden group">
                     <Image
-                      src="/campus-life.jpg"
+                      src="/about02.jpg"
                       alt="مكتبة الجامعة"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -117,7 +117,7 @@ export default function AboutPage() {
                   {/* Image 2 */}
                   <div className="relative h-[120px] rounded-xl overflow-hidden group">
                     <Image
-                      src="/campus-life.jpg"
+                      src="/about03.jpg"
                       alt="قاعات الدراسة"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -133,7 +133,7 @@ export default function AboutPage() {
                   {/* Image 3 */}
                   <div className="relative h-[120px] rounded-xl overflow-hidden group">
                     <Image
-                      src="/campus-life.jpg"
+                      src="/about04.jpg"
                       alt="المختبرات"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -149,7 +149,7 @@ export default function AboutPage() {
                   {/* Image 4 */}
                   <div className="relative h-[120px] rounded-xl overflow-hidden group">
                     <Image
-                      src="/campus-life.jpg"
+                      src="/about05.jpg"
                       alt="المرافق الرياضية"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
