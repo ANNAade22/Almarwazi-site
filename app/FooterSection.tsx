@@ -1,146 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useSpring, animated } from "@react-spring/web";
-import { useState, useEffect, useRef } from "react";
-
-// Extend Window interface to include custom timeout property
-declare global {
-  interface Window {
-    footerResetTimeout?: ReturnType<typeof setTimeout>;
-  }
-}
 
 export default function FooterSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [showFooter, setShowFooter] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    let wheelDelta = 0;
-    let isAtBottom = false;
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      // Check if we're at the bottom of the page
-      isAtBottom = currentScrollY + windowHeight >= documentHeight - 10;
-
-      if (isAtBottom) {
-        // Show footer when at bottom, but keep it hidden initially
-        setShowFooter(true);
-        setScrollProgress(0); // Start completely hidden
-      } else {
-        // Hide footer when not at bottom
-        setShowFooter(false);
-        setScrollProgress(0);
-        wheelDelta = 0; // Reset wheel delta
-      }
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (isAtBottom && e.deltaY > 0) {
-        e.preventDefault();
-
-        // Accumulate wheel delta for smoother effect
-        wheelDelta += e.deltaY;
-        const maxDelta = 200; // Reduced for more responsive effect
-        const progress = Math.min(wheelDelta / maxDelta, 1);
-
-        setShowFooter(true);
-        setScrollProgress(progress);
-
-        // Clear any existing timeout
-        if (window.footerResetTimeout) {
-          clearTimeout(window.footerResetTimeout);
-        }
-
-        // Gradually reset the delta for smooth return - slower reset
-        window.footerResetTimeout = setTimeout(() => {
-          wheelDelta = Math.max(0, wheelDelta - 20); // Slower reset
-          if (wheelDelta > 0) {
-            const newProgress = Math.min(wheelDelta / maxDelta, 1);
-            setScrollProgress(newProgress);
-            // Continue the reset process
-            window.footerResetTimeout = setTimeout(() => {
-              wheelDelta = Math.max(0, wheelDelta - 20);
-              if (wheelDelta > 0) {
-                const newProgress = Math.min(wheelDelta / maxDelta, 1);
-                setScrollProgress(newProgress);
-              } else {
-                setScrollProgress(0);
-              }
-            }, 100);
-          } else {
-            setScrollProgress(0);
-          }
-        }, 200); // Longer delay before starting reset
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("wheel", handleWheel);
-      if (window.footerResetTimeout) {
-        clearTimeout(window.footerResetTimeout);
-      }
-    };
-  }, []);
-
-  // Keep the intersection observer for the fade-in animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const fadeIn = useSpring({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateY(0)" : "translateY(20px)",
-    config: { tension: 280, friction: 60 },
-  });
-
-  const slideIn = useSpring({
-    transform: showFooter
-      ? `translateY(${(1 - scrollProgress) * 100}%)`
-      : "translateY(100%)",
-    config: {
-      tension: 500,
-      friction: 15,
-      mass: 0.3,
-    },
-  });
-
   return (
-    <>
-      {/* Spacer to prevent content from going behind fixed footer */}
-      <div className="h-[500px] bg-primary"></div>
-      
-      <animated.footer
-        ref={sectionRef}
-        style={slideIn}
-        className="fixed bottom-0 left-0 right-0 bg-primary text-white z-50"
-      >
-        <animated.div
-          style={fadeIn}
-          className="container mx-auto px-6 font-arabic"
-        >
+    <footer className="bg-primary text-white">
+      <div className="container mx-auto px-6 font-arabic">
         <div className="py-8 sm:py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 text-right">
           {/* About Section */}
           <div className="space-y-3 sm:space-y-4">
@@ -176,7 +40,7 @@ export default function FooterSection() {
               </li>
               <li>
                 <Link
-                  href="/admission"
+                  href="/contact"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   القبول والتسجيل
@@ -184,7 +48,7 @@ export default function FooterSection() {
               </li>
               <li>
                 <Link
-                  href="/news"
+                  href="/blog"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   الأخبار والفعاليات
@@ -196,12 +60,13 @@ export default function FooterSection() {
           {/* Contact Info */}
           <div>
             <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6">
-              معلومات الاتصال
+              الحرم الجامعي
             </h3>
             <ul className="space-y-3 sm:space-y-4 text-gray-300 text-right text-sm sm:text-base lg:text-lg">
-              <li>مقديشوا, الصومال</li>
-              <li>هاتف: 966-11-000-0000+</li>
-              <li>البريد الإلكتروني: info@almarwazi.edu</li>
+              <li>الحرم الرئيسي - الرياض</li>
+              <li>حرم جدة - جدة</li>
+              <li>حرم الدمام - الدمام</li>
+              <li>حرم أبها - أبها</li>
             </ul>
           </div>
 
@@ -212,7 +77,9 @@ export default function FooterSection() {
             </h3>
             <div className="flex justify-start gap-4 sm:gap-6">
               <Link
-                href="#"
+                href="https://wa.me/966110000000"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-300 hover:text-secondary transition-colors transform hover:scale-110 duration-200"
               >
                 <span className="sr-only">WhatsApp</span>
@@ -225,7 +92,9 @@ export default function FooterSection() {
                 </svg>
               </Link>
               <Link
-                href="#"
+                href="https://facebook.com/Almarwazi252"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-300 hover:text-secondary transition-colors transform hover:scale-110 duration-200"
               >
                 <span className="sr-only">Facebook</span>
@@ -238,7 +107,9 @@ export default function FooterSection() {
                 </svg>
               </Link>
               <Link
-                href="#"
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-300 hover:text-secondary transition-colors transform hover:scale-110 duration-200"
               >
                 <span className="sr-only">Twitter</span>
@@ -251,6 +122,7 @@ export default function FooterSection() {
                 </svg>
               </Link>
             </div>
+            <p className="text-gray-300 text-sm mt-4">marwazi-university.edu</p>
           </div>
         </div>
 
@@ -258,8 +130,7 @@ export default function FooterSection() {
         <div className="border-t border-gray-700 py-4 sm:py-6 lg:py-8 text-center text-gray-300 text-sm sm:text-base lg:text-lg">
           <p>جميع الحقوق محفوظة لجامعة المروزي ©{new Date().getFullYear()}</p>
         </div>
-      </animated.div>
-    </animated.footer>
-    </>
+      </div>
+    </footer>
   );
 }
