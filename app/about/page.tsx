@@ -7,7 +7,7 @@ import { BookOpen, Target, Award, Users, Building2, Lightbulb } from "lucide-rea
 
 export default function AboutPage() {
   const [activeSection, setActiveSection] = useState(0);
-  const sectionsRef = useRef<HTMLDivElement[]>([]);
+  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const observers = sectionsRef.current.map((section, index) => {
