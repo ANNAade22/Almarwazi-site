@@ -110,6 +110,16 @@ export default function Navigation() {
               الألبوم
             </Link>
             <Link
+              href="/deanships"
+              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
+                isActive("/deanships")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+              }`}
+            >
+              العمادات
+            </Link>
+            <Link
               href="/courses"
               className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
                 isActive("/courses")
@@ -117,7 +127,7 @@ export default function Navigation() {
                   : `${getTextColor()} ${getHoverColor()}`
               }`}
             >
-              الدورات
+              الكليات
             </Link>
             <Link
               href="/contact"
@@ -200,6 +210,28 @@ export default function Navigation() {
               الألبوم
             </Link>
             <Link
+              href="/deanships"
+              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
+                isActive("/deanships")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+              }`}
+              style={
+                isActive("/deanships")
+                  ? {
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
+                  : {}
+              }
+            >
+              العمادات
+            </Link>
+            <Link
               href="/courses"
               className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
                 isActive("/courses")
@@ -219,7 +251,7 @@ export default function Navigation() {
                   : {}
               }
             >
-              الدورات
+              الكليات
             </Link>
             <Link
               href="/contact"
@@ -344,6 +376,17 @@ export default function Navigation() {
                 الألبوم
               </Link>
               <Link
+                href="/deanships"
+                className={`font-medium py-2 ${
+                  isActive("/deanships")
+                    ? `${getActiveColor()} font-semibold`
+                    : getTextColor()
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                العمادات
+              </Link>
+              <Link
                 href="/courses"
                 className={`font-medium py-2 ${
                   isActive("/courses")
@@ -352,7 +395,7 @@ export default function Navigation() {
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                الدورات
+                الكليات
               </Link>
               <Link
                 href="/contact"
