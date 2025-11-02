@@ -94,10 +94,17 @@ export default function HeroSection() {
     );
   };
 
-  const fadeIn = useSpring({
+  const fadeInFromRight = useSpring({
     opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateY(0)" : "translateY(20px)",
+    transform: isVisible ? "translateX(0)" : "translateX(100px)",
     delay: 50,
+    config: { tension: 380, friction: 40 },
+  });
+
+  const fadeInFromLeft = useSpring({
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? "translateX(0)" : "translateX(-100px)",
+    delay: 100,
     config: { tension: 380, friction: 40 },
   });
 
@@ -153,20 +160,26 @@ export default function HeroSection() {
         </animated.div>
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/40"></div>
+        {/* Gradient transition to AboutSection */}
+        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 md:h-24 bg-gradient-to-t from-[#e3fae5] to-transparent"></div>
       </div>
 
       {/* Main Content Overlay */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-8 py-20">
         <div className="max-w-4xl mx-auto">
           {/* University Title */}
-          <animated.div style={fadeIn} className="mb-8 px-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight drop-shadow-2xl">
-              جامعة الإمام محمد بن نصر المروزي
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-blue-100 mb-8 sm:mb-12 leading-relaxed drop-shadow-lg max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto">
-              رسالة الجامعة: الكتاب والسنة على فهم سلف الأمة بالفصحى العربية
-            </p>
-          </animated.div>
+          <div className="mb-8 px-4">
+            <animated.div style={fadeInFromRight}>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight drop-shadow-2xl">
+                جامعة الإمام محمد بن نصر المروزي
+              </h1>
+            </animated.div>
+            <animated.div style={fadeInFromLeft}>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-yellow-300 mb-8 sm:mb-12 leading-relaxed drop-shadow-lg max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto font-semibold">
+                ترحب بكم. | Welcomes you | We idin so dhaweene
+              </p>
+            </animated.div>
+          </div>
 
           {/* Action Buttons */}
           <animated.div
@@ -251,7 +264,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="hidden lg:block absolute bottom-20 right-8 z-20">
+      <div className="hidden lg:block absolute bottom-40 right-8 z-20">
         <div className="bg-white/20 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-white/40">
           <div className="text-xs text-blue-200 mb-2 font-mono">
             CAMPUS_INFO

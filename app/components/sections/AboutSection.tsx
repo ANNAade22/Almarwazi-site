@@ -62,10 +62,9 @@ export default function AboutSection() {
   return (
     <section
       ref={sectionRef}
-      className="pt-0 pb-12 mt-12 sm:pb-16 md:pb-20 lg:pb-24 xl:pb-32 relative"
+      className="pt-12 sm:pt-16 md:pt-20 pb-12 md:pb-20 lg:pb-24 xl:pb-32 relative"
       style={{ backgroundColor: "#e3fae5" }}
     >
-      <div className="absolute inset-x-0 top-0 h-16 sm:h-24 lg:h-32 bg-gradient-to-b [#e3fae5]"></div>
       <div className="container mx-auto px-4 sm:px-6 relative">
         <div className="flex flex-col items-center">
           <div className="relative w-full max-w-6xl">
@@ -86,7 +85,7 @@ export default function AboutSection() {
             >
               <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center px-4 py-6 sm:py-8 bg-white/80 backdrop-blur-md rounded-xl shadow-lg pointer-events-auto">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 lg:mb-8 text-primary">
-                  عن جامعتنا
+                  البوم الجامعة
                 </h2>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
                   جامعة المروزي ملتزمة بتقديم تعليم عالي الجودة يستند إلى
