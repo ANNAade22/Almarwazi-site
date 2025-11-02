@@ -11,10 +11,7 @@ export default function AboutSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
+        setIsVisible(entry.isIntersecting);
       },
       {
         threshold: 0.2, // Triggers when 20% of the section is visible
@@ -62,7 +59,7 @@ export default function AboutSection() {
   return (
     <section
       ref={sectionRef}
-      className="pt-12 sm:pt-16 md:pt-20 pb-12 md:pb-20 lg:pb-24 xl:pb-32 relative"
+      className="py-12 md:py-16 lg:py-20 relative"
       style={{ backgroundColor: "#e3fae5" }}
     >
       <div className="container mx-auto px-4 sm:px-6 relative">
@@ -84,9 +81,20 @@ export default function AboutSection() {
               className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none"
             >
               <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center px-4 py-6 sm:py-8 bg-white/80 backdrop-blur-md rounded-xl shadow-lg pointer-events-auto">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 lg:mb-8 text-primary">
+                {/* Decorative top accent */}
+                <div className="flex items-center justify-center mb-4">
+                  <div className="h-px w-12 sm:w-16 bg-gradient-to-r from-transparent to-green-400"></div>
+                  <div className="mx-3 sm:mx-4 w-2.5 sm:w-3 h-2.5 sm:h-3 rotate-45 bg-gradient-to-br from-green-400 to-blue-500"></div>
+                  <div className="h-px w-12 sm:w-16 bg-gradient-to-l from-transparent to-blue-400"></div>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-primary relative inline-block">
                   البوم الجامعة
+                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-green-500 via-blue-500 to-green-500 rounded-full opacity-30"></div>
                 </h2>
+                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 lg:mb-8">
+                  University Album
+                </p>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
                   جامعة المروزي ملتزمة بتقديم تعليم عالي الجودة يستند إلى
                   المبادئ والقيم الإسلامية. مهمتنا هي إعداد الطلاب ليصبحوا قادة

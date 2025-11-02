@@ -31,6 +31,8 @@ const branches: Branch[] = [
     position: [-25.7479, 28.2293],
   }, // Pretoria, South Africa
   { id: 3, name: "فرع الكويت - Kuwait Branch", position: [29.3759, 47.9774] }, // Kuwait City, Kuwait
+  { id: 4, name: "فرع كينيا - Kenya Branch", position: [-1.2921, 36.8219] }, // Nairobi, Kenya
+  { id: 5, name: "فرع أوغندا - Uganda Branch", position: [0.3476, 32.5825] }, // Kampala, Uganda
 ];
 
 export default function BranchMap() {
@@ -57,7 +59,10 @@ export default function BranchMap() {
       <MapContainer
         center={center}
         zoom={zoom}
-        scrollWheelZoom={true}
+        scrollWheelZoom={false}
+        dragging={false}
+        doubleClickZoom={false}
+        zoomControl={false}
         style={{
           height: "500px",
           width: "100%",

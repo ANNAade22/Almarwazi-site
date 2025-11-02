@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import HeroSection from "./components/sections/HeroSection";
 import AboutSection from "./components/sections/AboutSection";
+import PartnerLogos from "./components/sections/PartnerLogos";
 import BranchLocations from "./components/sections/BranchLocations";
 // import CoursesSection from "./components/sections/CoursesSection";
 // import FacebookPosts from "./components/sections/FacebookPosts";
@@ -16,6 +17,7 @@ export default function Home() {
     <main className="min-h-screen">
       <HeroSection />
       <AboutSection />
+      <PartnerLogos />
       {/* <CoursesSection /> */}
       {/* PartnerUniversities removed per request */}
       {/* <FacebookPosts /> */}

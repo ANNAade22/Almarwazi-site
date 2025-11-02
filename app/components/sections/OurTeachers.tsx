@@ -31,17 +31,34 @@ const OurTeachers = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative py-16 bg-[#e3fae5]">
+    <section ref={containerRef} className="relative py-12 md:py-16 lg:py-20 bg-[#e3fae5]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#e3fae5]/50 to-[#e3fae5] opacity-70"></div>
 
       <div className="container mx-auto px-4 relative">
-        <h2
-          className={`text-4xl font-bold text-center text-primary mb-12 transition-all duration-700 ${
+        <div className="text-center mb-12 relative">
+          {/* Decorative top accent */}
+          <div className={`flex items-center justify-center mb-6 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          أساتذتنا الكرام
-        </h2>
+          }`}>
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-green-400"></div>
+            <div className="mx-4 w-3 h-3 rotate-45 bg-gradient-to-br from-green-400 to-blue-500"></div>
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-blue-400"></div>
+          </div>
+
+          <h2
+            className={`text-4xl font-bold text-primary relative inline-block transition-all duration-700 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
+          >
+            أساتذتنا الكرام
+            <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-blue-500 to-green-500 rounded-full opacity-30"></div>
+          </h2>
+          <p className={`text-lg md:text-xl text-gray-700 leading-relaxed mt-6 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}>
+            Our Distinguished Teachers
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {teachers.map((teacher, index) => (
