@@ -89,11 +89,11 @@ export default function AboutSection() {
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-primary relative inline-block">
-                  البوم الجامعة
+                  عن جامعة المروزي
                   <div className="absolute -bottom-1 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-green-500 via-blue-500 to-green-500 rounded-full opacity-30"></div>
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 lg:mb-8">
-                  University Album
+                  About Marwazi University
                 </p>
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
                   جامعة المروزي ملتزمة بتقديم تعليم عالي الجودة يستند إلى
@@ -104,12 +104,20 @@ export default function AboutSection() {
                   مع مرافق حديثة وأعضاء هيئة تدريس ذوي خبرة، نوفر بيئة مواتية
                   للتعلم والنمو الشخصي.
                 </p>
-                <Link
-                  href="/album"
-                  className="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors inline-block text-sm sm:text-base lg:text-lg"
-                >
-                  اكتشف الألبوم
-                </Link>
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <Link
+                    href="/about"
+                    className="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors inline-block text-sm sm:text-base lg:text-lg"
+                  >
+                    اكتشف المزيد
+                  </Link>
+                  <Link
+                    href="/album"
+                    className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary border-2 border-primary rounded-lg font-medium hover:bg-primary hover:text-white transition-colors inline-block text-sm sm:text-base lg:text-lg"
+                  >
+                    البوم الجامعة
+                  </Link>
+                </div>
               </div>
             </animated.div>
           </div>
