@@ -100,6 +100,16 @@ export default function Navigation() {
               عن الجامعة
             </Link>
             <Link
+              href="/album"
+              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
+                isActive("/album")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+              }`}
+            >
+              الألبوم
+            </Link>
+            <Link
               href="/courses"
               className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
                 isActive("/courses")
@@ -166,6 +176,28 @@ export default function Navigation() {
               }
             >
               عن الجامعة
+            </Link>
+            <Link
+              href="/album"
+              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
+                isActive("/album")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+              }`}
+              style={
+                isActive("/album")
+                  ? {
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
+                  : {}
+              }
+            >
+              الألبوم
             </Link>
             <Link
               href="/courses"
@@ -299,6 +331,17 @@ export default function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 عن الجامعة
+              </Link>
+              <Link
+                href="/album"
+                className={`font-medium py-2 ${
+                  isActive("/album")
+                    ? `${getActiveColor()} font-semibold`
+                    : getTextColor()
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                الألبوم
               </Link>
               <Link
                 href="/courses"

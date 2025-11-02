@@ -105,10 +105,10 @@ export default function AboutSection() {
                   للتعلم والنمو الشخصي.
                 </p>
                 <Link
-                  href="/about"
+                  href="/album"
                   className="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors inline-block text-sm sm:text-base lg:text-lg"
                 >
-                  اكتشف المزيد
+                  اكتشف الألبوم
                 </Link>
               </div>
             </animated.div>
