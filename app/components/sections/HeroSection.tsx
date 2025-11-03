@@ -30,25 +30,25 @@ export default function HeroSection() {
   const stats: StatItem[] = [
     {
       number: 15000,
-      label: "طالب",
+      label: "عدد الخريجين",
       icon: <GraduationCap className="w-8 h-8 text-blue-500" />,
       color: "from-blue-500 to-blue-600",
     },
     {
       number: 450,
-      label: "أستاذ",
+      label: "عدد المقيدين",
       icon: <Users className="w-8 h-8 text-green-500" />,
       color: "from-green-500 to-green-600",
     },
     {
       number: 8,
-      label: "حرم جامعي",
+      label: "عدد الموظفين",
       icon: <Building2 className="w-8 h-8 text-purple-500" />,
       color: "from-purple-500 to-purple-600",
     },
     {
       number: 1200,
-      label: "موظف",
+      label: "عدد الفروع",
       icon: <UserCheck className="w-8 h-8 text-orange-500" />,
       color: "from-orange-500 to-orange-600",
     },
@@ -167,48 +167,6 @@ export default function HeroSection() {
       {/* Main Content Overlay */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-8 py-20">
         <div className="max-w-4xl mx-auto">
-          {/* University Title */}
-          <div className="mb-8 px-4">
-            <animated.div style={fadeInFromRight}>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight drop-shadow-2xl">
-                جامعة الإمام محمد بن نصر المروزي
-              </h1>
-            </animated.div>
-            <animated.div style={fadeInFromLeft}>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-yellow-300 mb-8 sm:mb-12 leading-relaxed drop-shadow-lg max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto font-semibold">
-                ترحب بكم. | Welcomes you | We idin so dhaweene
-              </p>
-            </animated.div>
-          </div>
-
-          {/* Action Buttons */}
-          <animated.div
-            style={buttonAnimation}
-            className="mb-8 sm:mb-12 lg:mb-16"
-          >
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center px-4">
-              <Link
-                href="/courses"
-                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base"
-              >
-                ابدأ مجانًا
-              </Link>
-              <Link
-                href="/about"
-                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all duration-300 hover:scale-105 border border-blue-500 hover:border-blue-400 text-sm sm:text-base"
-              >
-                تعرف علينا
-              </Link>
-              <Link
-                href="/contact"
-                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-500 to-blue-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-sm sm:text-base"
-              >
-                <span>انضم إلينا</span>
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-              </Link>
-            </div>
-          </animated.div>
-
           {/* Statistics Section */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-8 sm:mb-12 lg:mb-16 px-4">
             {stats.map((stat, index) => (
@@ -233,50 +191,6 @@ export default function HeroSection() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Floating UI Elements - Hidden on mobile */}
-      <div className="hidden lg:block absolute top-32 left-8 z-20">
-        <div className="bg-white/20 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-white/40">
-          <div className="text-xs text-blue-200 mb-2 font-mono">
-            UNIVERSITY_APP
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center space-x-2 space-x-reverse text-white text-sm">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>التعليم على منهج السلف الصالح</span>
-            </div>
-            <div className="flex items-center space-x-2 space-x-reverse text-white text-sm">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              <span>أكثر من 15,000 طالب مسجل</span>
-            </div>
-            <div className="flex items-center space-x-2 space-x-reverse text-white text-sm">
-              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-              <span>8 حرم جامعي في مختلف المدن</span>
-            </div>
-            <div className="flex items-center space-x-2 space-x-reverse text-white text-sm">
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-              <span>التسجيل مفتوح الآن</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="hidden lg:block absolute bottom-40 right-8 z-20">
-        <div className="bg-white/20 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-white/40">
-          <div className="text-xs text-blue-200 mb-2 font-mono">
-            CAMPUS_INFO
-          </div>
-          <div className="text-white text-sm mb-2 font-medium">
-            marwazi-university.edu
-          </div>
-          <div className="space-y-2">
-            <div className="text-white text-sm">الحرم الرئيسي - الرياض</div>
-            <div className="text-white text-sm">حرم جدة - جدة</div>
-            <div className="text-white text-sm">حرم الدمام - الدمام</div>
-            <div className="text-white text-sm">حرم أبها - أبها</div>
           </div>
         </div>
       </div>

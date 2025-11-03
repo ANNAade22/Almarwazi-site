@@ -74,8 +74,24 @@ export default function Navigation() {
       }}
     >
       <div className="container mx-auto px-4 py-2" dir="rtl">
-        <div className="flex justify-between items-center">
-          <Logo />
+        <div className="flex justify-between items-center relative">
+          {/* Logo and University Name - Left side on large screens */}
+          <div className="flex items-center gap-3">
+            <Logo />
+            {/* University Name - Next to logo on large screens */}
+            <span
+              className={`hidden lg:block text-lg md:text-xl font-bold ${getTextColor()}`}
+            >
+              جامعة الإمام المروزي
+            </span>
+          </div>
+
+          {/* University Name - Centered on mobile only */}
+          <span
+            className={`lg:hidden absolute left-1/2 transform -translate-x-1/2 text-lg font-bold ${getTextColor()}`}
+          >
+            جامعة الإمام المروزي
+          </span>
 
           {/* Tablet Navigation */}
           <nav className="hidden lg:flex xl:hidden items-center space-x-reverse space-x-4">
