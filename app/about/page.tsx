@@ -31,6 +31,19 @@ export default function AboutPage() {
     };
   }, []);
 
+  // Handle hash navigation with smooth scroll
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }, []);
+
   return (
     <main dir="rtl" className="pt-20 bg-[#e3fae5]">
       {/* Hero Section */}
@@ -72,6 +85,7 @@ export default function AboutPage() {
 
       {/* 1. كلمة رئيس الجامعة */}
       <section 
+        id="president-message"
         ref={(el) => { if (el) sectionsRef.current[0] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-white"
       >
@@ -130,6 +144,7 @@ export default function AboutPage() {
 
       {/* 2. نشأة الجامعة */}
       <section 
+        id="establishment"
         ref={(el) => { if (el) sectionsRef.current[1] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
       >
@@ -179,6 +194,7 @@ export default function AboutPage() {
 
       {/* 3. الرسالة والرؤية */}
       <section 
+        id="mission-vision"
         ref={(el) => { if (el) sectionsRef.current[2] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-white"
       >
@@ -231,6 +247,7 @@ export default function AboutPage() {
 
       {/* 4. الأهداف العامة للجامعة */}
       <section 
+        id="goals"
         ref={(el) => { if (el) sectionsRef.current[3] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
       >
@@ -279,6 +296,7 @@ export default function AboutPage() {
 
       {/* 5. الميزات والخصائص */}
       <section 
+        id="features"
         ref={(el) => { if (el) sectionsRef.current[4] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
       >
@@ -381,6 +399,7 @@ export default function AboutPage() {
 
       {/* 6. المبادئ الأساسية */}
       <section 
+        id="principles"
         ref={(el) => { if (el) sectionsRef.current[5] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-white"
       >
@@ -449,6 +468,7 @@ export default function AboutPage() {
 
       {/* 7. الهيكل الإداري */}
       <section 
+        id="structure"
         ref={(el) => { if (el) sectionsRef.current[6] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
       >

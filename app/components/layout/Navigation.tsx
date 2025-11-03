@@ -1,14 +1,16 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Logo from "../Logo";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOverDarkBackground, setIsOverDarkBackground] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = (path: string) => {
     return pathname === path;
@@ -39,6 +41,20 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close dropdown when mobile menu closes
+  useEffect(() => {
+    if (!isMenuOpen) {
+      setIsAboutDropdownOpen(false);
+    }
+  }, [isMenuOpen]);
+
+  // Close dropdown when on about page
+  useEffect(() => {
+    if (isActive("/about")) {
+      setIsAboutDropdownOpen(false);
+    }
+  }, [pathname]);
+
   // Get text color based on scroll state
   const getTextColor = () => {
     return isScrolled ? "text-yellow-400" : "text-gray-800";
@@ -52,10 +68,45 @@ export default function Navigation() {
     return "text-green-500";
   };
 
+  // About page sections for dropdown
+  const aboutSections = [
+    { id: "president-message", label: "كلمة رئيس الجامعة", icon: "👤" },
+    { id: "establishment", label: "نشأة الجامعة", icon: "🏛️" },
+    { id: "mission-vision", label: "الرسالة والرؤية", icon: "🎯" },
+    { id: "goals", label: "الأهداف العامة للجامعة", icon: "📋" },
+    { id: "features", label: "الميزات والخصائص", icon: "⭐" },
+    { id: "principles", label: "المبادئ الأساسية", icon: "💎" },
+    { id: "structure", label: "الهيكل الإداري", icon: "🏢" },
+  ];
+
+  // Handle navigation to about section with smooth scroll
+  const handleSectionClick = (sectionId: string) => {
+    setIsAboutDropdownOpen(false);
+    setIsMenuOpen(false);
+
+    if (pathname === "/about") {
+      // Already on about page, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      // Navigate to about page with hash
+      router.push(`/about#${sectionId}`);
+      // Scroll after navigation completes
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <div
       className={`${
-        isScrolled ? "fixed top-4 left-4 right-4 z-50" : "relative w-full"
+        isScrolled ? "fixed top-4 left-4 right-4 z-50" : "relative w-full z-50"
       } transition-all duration-700 ease-out`}
       style={{
         background: isScrolled
@@ -105,16 +156,60 @@ export default function Navigation() {
             >
               الرئيسية
             </Link>
-            <Link
-              href="/about"
-              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                isActive("/about")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+            <div
+              className="relative inline-block"
+              onMouseEnter={() =>
+                !isActive("/about") && setIsAboutDropdownOpen(true)
+              }
+              onMouseLeave={() => setIsAboutDropdownOpen(false)}
             >
-              عن الجامعة
-            </Link>
+              <Link
+                href="/about"
+                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
+                  isActive("/about")
+                    ? getActiveColor()
+                    : `${getTextColor()} ${getHoverColor()}`
+                }`}
+              >
+                عن الجامعة
+              </Link>
+
+              {/* Dropdown Menu - Only show when not on about page */}
+              {isAboutDropdownOpen && !isActive("/about") && (
+                <div
+                  className="absolute top-full right-0 w-64 rounded-xl shadow-2xl"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.95)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+                    zIndex: 9999,
+                    paddingTop: "8px",
+                  }}
+                  onMouseEnter={() => setIsAboutDropdownOpen(true)}
+                  onMouseLeave={() => setIsAboutDropdownOpen(false)}
+                >
+                  <div className="py-2">
+                    {aboutSections.map((section, index) => (
+                      <button
+                        key={section.id}
+                        onClick={() => handleSectionClick(section.id)}
+                        className="w-full text-right px-4 py-3 hover:bg-green-50 transition-colors duration-200 text-gray-700 hover:text-green-600 font-medium text-sm"
+                        style={{
+                          borderBottom:
+                            index < aboutSections.length - 1
+                              ? "1px solid rgba(0, 0, 0, 0.05)"
+                              : "none",
+                        }}
+                      >
+                        {section.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <Link
               href="/album"
               className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
@@ -181,28 +276,72 @@ export default function Navigation() {
             >
               الرئيسية
             </Link>
-            <Link
-              href="/about"
-              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                isActive("/about")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
-              style={
-                isActive("/about")
-                  ? {
-                      background: "transparent",
-                      borderRadius: "50px",
-                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                      backdropFilter: "blur(15px)",
-                      WebkitBackdropFilter: "blur(15px)",
-                      border: "1px solid rgba(255, 255, 255, 0.3)",
-                    }
-                  : {}
+            <div
+              className="relative inline-block"
+              onMouseEnter={() =>
+                !isActive("/about") && setIsAboutDropdownOpen(true)
               }
+              onMouseLeave={() => setIsAboutDropdownOpen(false)}
             >
-              عن الجامعة
-            </Link>
+              <Link
+                href="/about"
+                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
+                  isActive("/about")
+                    ? getActiveColor()
+                    : `${getTextColor()} ${getHoverColor()}`
+                }`}
+                style={
+                  isActive("/about")
+                    ? {
+                        background: "transparent",
+                        borderRadius: "50px",
+                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                        backdropFilter: "blur(15px)",
+                        WebkitBackdropFilter: "blur(15px)",
+                        border: "1px solid rgba(255, 255, 255, 0.3)",
+                      }
+                    : {}
+                }
+              >
+                عن الجامعة
+              </Link>
+
+              {/* Dropdown Menu - Only show when not on about page */}
+              {isAboutDropdownOpen && !isActive("/about") && (
+                <div
+                  className="absolute top-full right-0 w-64 rounded-xl shadow-2xl"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.95)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+                    zIndex: 9999,
+                    paddingTop: "8px",
+                  }}
+                  onMouseEnter={() => setIsAboutDropdownOpen(true)}
+                  onMouseLeave={() => setIsAboutDropdownOpen(false)}
+                >
+                  <div className="py-2">
+                    {aboutSections.map((section, index) => (
+                      <button
+                        key={section.id}
+                        onClick={() => handleSectionClick(section.id)}
+                        className="w-full text-right px-4 py-3 hover:bg-green-50 transition-colors duration-200 text-gray-700 hover:text-green-600 font-medium"
+                        style={{
+                          borderBottom:
+                            index < aboutSections.length - 1
+                              ? "1px solid rgba(0, 0, 0, 0.05)"
+                              : "none",
+                        }}
+                      >
+                        {section.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <Link
               href="/album"
               className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
@@ -346,7 +485,10 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden">
+        <div
+          className="lg:hidden"
+          onMouseLeave={() => setIsAboutDropdownOpen(false)}
+        >
           <div className="container mx-auto px-4">
             <nav
               className="flex flex-col space-y-4 py-6 text-center rounded-2xl mx-2 mb-4"
@@ -369,17 +511,33 @@ export default function Navigation() {
               >
                 الرئيسية
               </Link>
-              <Link
-                href="/about"
-                className={`font-medium py-2 ${
-                  isActive("/about")
-                    ? `${getActiveColor()} font-semibold`
-                    : getTextColor()
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                عن الجامعة
-              </Link>
+              <div className="relative">
+                <button
+                  className={`font-medium py-2 w-full text-center ${
+                    isActive("/about")
+                      ? `${getActiveColor()} font-semibold`
+                      : getTextColor()
+                  }`}
+                  onClick={() => setIsAboutDropdownOpen(!isAboutDropdownOpen)}
+                >
+                  عن الجامعة
+                </button>
+
+                {/* Mobile Dropdown Menu */}
+                {isAboutDropdownOpen && (
+                  <div className="mt-2 pr-4 space-y-1">
+                    {aboutSections.map((section) => (
+                      <button
+                        key={section.id}
+                        onClick={() => handleSectionClick(section.id)}
+                        className="w-full text-right py-2 px-4 text-sm text-gray-600 hover:text-green-600 transition-colors"
+                      >
+                        {section.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <Link
                 href="/album"
                 className={`font-medium py-2 ${
