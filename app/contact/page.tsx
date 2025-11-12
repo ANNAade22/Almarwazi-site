@@ -1,8 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { useSpring, animated } from "@react-spring/web";
 import FooterSection from "../FooterSection";
-import Image from "next/image";
+import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -65,67 +64,164 @@ export default function ContactPage() {
     }, 5000);
   };
 
-  const fadeIn = useSpring({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateY(0)" : "translateY(40px)",
-    config: { tension: 280, friction: 60 },
-  });
+  const contactInfo = [
+    {
+      icon: <MapPin className="w-6 h-6" />,
+      title: "العنوان",
+      details: ["مقديشوا، الصومال", "الحرم الجامعي الرئيسي"],
+      gradient: "from-blue-400 to-cyan-500",
+    },
+    {
+      icon: <Mail className="w-6 h-6" />,
+      title: "البريد الإلكتروني",
+      details: ["info@almarwazi.edu", "admissions@almarwazi.edu"],
+      gradient: "from-green-400 to-emerald-500",
+    },
+    {
+      icon: <Phone className="w-6 h-6" />,
+      title: "الهاتف",
+      details: ["966-11-000-0000+", "966-11-000-0001+"],
+      gradient: "from-purple-400 to-violet-500",
+    },
+  ];
 
   return (
-    <main dir="rtl" className="pt-20">
+    <main dir="rtl" className="pt-20 bg-[#e3fae5]">
       {/* Hero Section */}
-      <section className="relative bg-[#e3fae5] py-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
-        <div className="container mx-auto px-6 relative">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-5xl font-bold text-primary mb-6">اتصل بنا</h1>
-            <p className="text-xl text-gray-700 leading-relaxed">
-              نحن هنا للإجابة على استفساراتك ومساعدتك في كل ما تحتاجه. لا تتردد
-              في التواصل معنا.
+      <section className="relative py-16 md:py-20 lg:py-32 bg-gradient-to-br from-primary to-primary/90 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 right-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
+              اتصل بنا
+            </h1>
+            <p className="text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed mb-4">
+              نحن هنا للإجابة على استفساراتك ومساعدتك
             </p>
+            <p className="text-base sm:text-lg text-white/80">
+              Contact Us - We're Here to Help
+            </p>
+          </div>
+        </div>
+
+        {/* Animated Scroll Down Arrow */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="flex flex-col items-center gap-2 animate-bounce">
+            <span className="text-white/70 text-sm font-medium">تواصل معنا</span>
+            <svg
+              className="w-6 h-6 text-white/90"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
           </div>
         </div>
       </section>
 
-      {/* Contact Information and Form Section */}
-      <section ref={sectionRef} className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <animated.div style={fadeIn} className="order-2 lg:order-1">
-              <div className="bg-white p-8 rounded-xl shadow-sm">
-                <h2 className="text-3xl font-bold text-primary mb-8">
-                  أرسل لنا رسالة
-                </h2>
+      {/* Contact Info Cards */}
+      <section className="py-12 md:py-16">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            {contactInfo.map((info, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-green-200 overflow-hidden"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                  transition: `all 0.6s ease ${index * 0.1}s`,
+                }}
+              >
+                {/* Decorative Background */}
+                <div className="absolute top-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
+                  <div className={`w-full h-full bg-gradient-to-bl ${info.gradient} rounded-bl-full`}></div>
+                </div>
+
+                {/* Icon */}
+                <div className="relative mb-6">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${info.gradient} text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                    {info.icon}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="relative">
+                  <h3 className="text-2xl font-bold text-primary mb-4 group-hover:text-green-600 transition-colors duration-300">
+                    {info.title}
+                  </h3>
+                  {info.details.map((detail, idx) => (
+                    <p key={idx} className="text-gray-700 leading-relaxed mb-2">
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+
+                {/* Decorative Bottom Line */}
+                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${info.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Form and Working Hours */}
+      <section ref={sectionRef} className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Contact Form - Takes 2 columns */}
+            <div className="lg:col-span-2">
+              <div className="bg-gradient-to-br from-gray-50 to-green-50 p-8 md:p-10 rounded-2xl shadow-lg border-2 border-green-100">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="p-3 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl text-white">
+                    <Send className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-primary">
+                    أرسل لنا رسالة
+                  </h2>
+                </div>
 
                 {isSubmitted ? (
-                  <div className="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-md">
-                    <div className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 ml-2"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <p className="font-medium">
-                        تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.
-                      </p>
+                  <div className="bg-green-50 border-2 border-green-400 text-green-700 px-6 py-6 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg
+                          className="w-6 h-6 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={3}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="font-bold text-lg">تم إرسال رسالتك بنجاح!</p>
+                        <p className="text-sm">سنتواصل معك في أقرب وقت ممكن</p>
+                      </div>
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
                         <label
                           htmlFor="name"
-                          className="block text-gray-700 font-medium mb-2"
+                          className="block text-gray-800 font-semibold mb-2"
                         >
-                          الاسم الكامل
+                          الاسم الكامل *
                         </label>
                         <input
                           type="text"
@@ -134,16 +230,16 @@ export default function ContactPage() {
                           value={formData.name}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
                           placeholder="أدخل اسمك الكامل"
                         />
                       </div>
                       <div>
                         <label
                           htmlFor="email"
-                          className="block text-gray-700 font-medium mb-2"
+                          className="block text-gray-800 font-semibold mb-2"
                         >
-                          البريد الإلكتروني
+                          البريد الإلكتروني *
                         </label>
                         <input
                           type="email"
@@ -152,17 +248,17 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
                           placeholder="example@email.com"
                         />
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
                         <label
                           htmlFor="phone"
-                          className="block text-gray-700 font-medium mb-2"
+                          className="block text-gray-800 font-semibold mb-2"
                         >
                           رقم الهاتف
                         </label>
@@ -172,16 +268,16 @@ export default function ContactPage() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="أدخل رقم هاتفك"
+                          className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
+                          placeholder="+966 XX XXX XXXX"
                         />
                       </div>
                       <div>
                         <label
                           htmlFor="subject"
-                          className="block text-gray-700 font-medium mb-2"
+                          className="block text-gray-800 font-semibold mb-2"
                         >
-                          الموضوع
+                          الموضوع *
                         </label>
                         <select
                           id="subject"
@@ -189,19 +285,13 @@ export default function ContactPage() {
                           value={formData.subject}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
                         >
                           <option value="">اختر الموضوع</option>
                           <option value="استفسار عام">استفسار عام</option>
-                          <option value="القبول والتسجيل">
-                            القبول والتسجيل
-                          </option>
-                          <option value="البرامج الدراسية">
-                            البرامج الدراسية
-                          </option>
-                          <option value="الرسوم الدراسية">
-                            الرسوم الدراسية
-                          </option>
+                          <option value="القبول والتسجيل">القبول والتسجيل</option>
+                          <option value="البرامج الدراسية">البرامج الدراسية</option>
+                          <option value="الرسوم الدراسية">الرسوم الدراسية</option>
                           <option value="أخرى">أخرى</option>
                         </select>
                       </div>
@@ -210,9 +300,9 @@ export default function ContactPage() {
                     <div>
                       <label
                         htmlFor="message"
-                        className="block text-gray-700 font-medium mb-2"
+                        className="block text-gray-800 font-semibold mb-2"
                       >
-                        الرسالة
+                        الرسالة *
                       </label>
                       <textarea
                         id="message"
@@ -221,160 +311,96 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         rows={5}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all resize-none"
                         placeholder="اكتب رسالتك هنا..."
                       ></textarea>
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full px-6 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors"
+                      className="w-full px-8 py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-xl font-bold text-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3"
                     >
+                      <Send className="w-5 h-5" />
                       إرسال الرسالة
                     </button>
                   </form>
                 )}
               </div>
-            </animated.div>
+            </div>
 
-            <animated.div style={fadeIn} className="order-1 lg:order-2">
-              <h2 className="text-3xl font-bold text-primary mb-8">
-                معلومات الاتصال
-              </h2>
-
-              <div className="space-y-8">
-                <div className="flex items-start space-x-reverse space-x-5">
-                  <div className="bg-primary/10 p-4 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
+            {/* Working Hours - Takes 1 column */}
+            <div className="lg:col-span-1">
+              <div className="bg-gradient-to-br from-primary to-primary/90 p-8 rounded-2xl text-white shadow-xl h-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <Clock className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-1">
-                      العنوان
-                    </h3>
-                    <p className="text-gray-600">مقديشوا, الصومال</p>
-                    <p className="text-gray-600 mt-1">
-                      الحرم الجامعي الرئيسي، شارع الجامعة
-                    </p>
+                  <h3 className="text-2xl font-bold">ساعات العمل</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-lg">الأحد - الخميس</span>
+                      <span className="text-white/90">8:00 ص - 4:00 م</span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-lg">الجمعة</span>
+                      <span className="text-red-200">مغلق</span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-lg">السبت</span>
+                      <span className="text-white/90">9:00 ص - 1:00 م</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-reverse space-x-5">
-                  <div className="bg-primary/10 p-4 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-1">
-                      البريد الإلكتروني
-                    </h3>
-                    <p className="text-gray-600">info@almarwazi.edu</p>
-                    <p className="text-gray-600 mt-1">
-                      admissions@almarwazi.edu
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-reverse space-x-5">
-                  <div className="bg-primary/10 p-4 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-1">
-                      الهاتف
-                    </h3>
-                    <p className="text-gray-600">966-11-000-0000+</p>
-                    <p className="text-gray-600 mt-1">966-11-000-0001+</p>
-                  </div>
+                <div className="mt-8 pt-6 border-t border-white/20">
+                  <p className="text-white/80 text-sm leading-relaxed">
+                    للطوارئ أو الاستفسارات العاجلة، يرجى الاتصال على رقم الطوارئ الموضح أعلاه
+                  </p>
                 </div>
               </div>
-
-              <div className="mt-12 bg-[#e3fae5] p-8 rounded-xl">
-                <h3 className="text-xl font-bold text-primary mb-4">
-                  ساعات العمل
-                </h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex justify-between border-b border-primary/10 pb-2">
-                    <span className="font-medium">الأحد - الخميس:</span>
-                    <span>8:00 صباحاً - 4:00 مساءً</span>
-                  </li>
-                  <li className="flex justify-between border-b border-primary/10 pb-2">
-                    <span className="font-medium">الجمعة:</span>
-                    <span>مغلق</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="font-medium">السبت:</span>
-                    <span>9:00 صباحاً - 1:00 ظهراً</span>
-                  </li>
-                </ul>
-              </div>
-            </animated.div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Map Section */}
-      <section className="py-16 bg-[#e3fae5]">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-primary mb-8 text-center">
-            موقعنا
-          </h2>
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm h-[400px]">
-            {/* Google Maps iframe for Mogadishu */}
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127356.21295435993!2d45.24351962320662!3d2.0371281066307366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3d58425955ce6b53%3A0x5c2da92d6f4bf467!2sMogadishu%2C%20Somalia!5e0!3m2!1sen!2s!4v1653913936963!5m2!1sen!2s"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Mogadishu Map"
-              className="w-full h-full"
-            ></iframe>
+      <section className="py-12 md:py-16 bg-[#e3fae5]">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center mb-6">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent to-green-400"></div>
+                <div className="mx-4 w-3 h-3 rotate-45 bg-gradient-to-br from-green-400 to-blue-500"></div>
+                <div className="h-px w-16 bg-gradient-to-l from-transparent to-blue-400"></div>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
+                موقعنا على الخريطة
+              </h2>
+              <p className="text-lg text-gray-700">زورنا في الحرم الجامعي الرئيسي</p>
+            </div>
+
+            <div className="bg-white rounded-2xl overflow-hidden shadow-xl border-4 border-white h-[450px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127356.21295435993!2d45.24351962320662!3d2.0371281066307366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3d58425955ce6b53%3A0x5c2da92d6f4bf467!2sMogadishu%2C%20Somalia!5e0!3m2!1sen!2s!4v1653913936963!5m2!1sen!2s"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Mogadishu Map"
+                className="w-full h-full"
+              ></iframe>
+            </div>
           </div>
         </div>
       </section>
