@@ -311,7 +311,7 @@ export default function CoursesPage() {
   return (
     <main dir="rtl" className="pt-20 bg-[#e3fae5]">
       {/* Hero Section */}
-      <section className="relative py-16 md:py-20 lg:py-32 bg-gradient-to-br from-primary to-primary/90 text-white overflow-hidden">
+      <section id="overview" className="relative py-16 md:py-20 lg:py-32 bg-gradient-to-br from-primary to-primary/90 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 right-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 left-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -351,7 +351,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Category Filter */}
-      <section className="py-12 bg-white">
+      <section id="categories" className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-wrap justify-center gap-3 md:gap-4">
@@ -375,7 +375,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-12 bg-[#e3fae5]">
+      <section id="statistics" className="py-12 bg-[#e3fae5]">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg">
@@ -403,7 +403,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Courses Grid */}
-      <section ref={sectionRef} className="py-12 md:py-16 lg:py-20">
+      <section id="programs" ref={sectionRef} className="py-12 md:py-16 lg:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             {filteredCourses.length === 0 ? (
@@ -483,7 +483,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Admission Info Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section id="admission" className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center mb-6">
