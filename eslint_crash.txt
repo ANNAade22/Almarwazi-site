@@ -1,0 +1,20 @@
+(node:20028) ESLintIgnoreWarning: The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Cannot read config file: E:\new data4\marwazi-university-site\node_modules\eslint-config-next\dist\core-web-vitals.js
+Error: Package subpath './v4/core' is not defined by "exports" in E:\new data4\marwazi-university-site\node_modules\zod\package.json
+Referenced from: 
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:660:9)
+    at resolveExports (node:internal/modules/cjs/loader:650:36)
+    at Function._findPath (node:internal/modules/cjs/loader:717:31)
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1369:27)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
