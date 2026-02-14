@@ -13,6 +13,7 @@ export default function Logo({ className = "" }: LogoProps) {
           src="/download-removebg-preview (2).png"
           alt="Almarwazi University Logo"
           fill
+          sizes="(max-width: 768px) 64px, 96px"
           className="object-contain"
           priority
         />

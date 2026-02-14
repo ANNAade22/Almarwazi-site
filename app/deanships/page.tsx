@@ -3,11 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import FooterSection from "../FooterSection";
 
-// Deanship data
+// Deanship data - matching the dropdown menu
 const deanships = [
   {
-    id: 1,
-    icon: "🎓",
+    id: "admission-registration",
+    icon: "📝",
     title: "عمادة القبول والتسجيل",
     titleEn: "Deanship of Admission and Registration",
     description: "تُعنى بقبول الطلاب وتسجيلهم في البرامج الأكاديمية المختلفة، وإدارة سجلاتهم الأكاديمية",
@@ -22,39 +22,7 @@ const deanships = [
     gradient: "from-blue-400 to-cyan-500",
   },
   {
-    id: 2,
-    icon: "📚",
-    title: "عمادة الدراسات العليا",
-    titleEn: "Deanship of Graduate Studies",
-    description: "تشرف على برامج الماجستير والدكتوراه وتطوير البحث العلمي في الجامعة",
-    responsibilities: [
-      "إدارة برامج الماجستير والدكتوراه",
-      "الإشراف على الأبحاث العلمية",
-      "تنظيم المؤتمرات العلمية",
-      "متابعة الطلاب الباحثين",
-    ],
-    email: "graduate@marwazi.edu",
-    phone: "+966 12 345 6790",
-    gradient: "from-purple-400 to-violet-500",
-  },
-  {
-    id: 3,
-    icon: "🔬",
-    title: "عمادة البحث العلمي",
-    titleEn: "Deanship of Scientific Research",
-    description: "تدعم وتشجع البحث العلمي والابتكار في مختلف المجالات الأكاديمية",
-    responsibilities: [
-      "دعم المشاريع البحثية",
-      "تمويل الأبحاث العلمية",
-      "نشر الأبحاث في المجلات العلمية",
-      "تنظيم الندوات البحثية",
-    ],
-    email: "research@marwazi.edu",
-    phone: "+966 12 345 6791",
-    gradient: "from-green-400 to-emerald-500",
-  },
-  {
-    id: 4,
+    id: "student-affairs",
     icon: "👥",
     title: "عمادة شؤون الطلاب",
     titleEn: "Deanship of Student Affairs",
@@ -70,10 +38,10 @@ const deanships = [
     gradient: "from-orange-400 to-red-500",
   },
   {
-    id: 5,
-    icon: "📖",
-    title: "عمادة شؤون المكتبات",
-    titleEn: "Deanship of Library Affairs",
+    id: "libraries",
+    icon: "📚",
+    title: "عمادة المكتبات",
+    titleEn: "Deanship of Libraries",
     description: "تدير المكتبات الجامعية وتوفر المصادر العلمية للطلاب والباحثين",
     responsibilities: [
       "إدارة المكتبات الجامعية",
@@ -86,52 +54,52 @@ const deanships = [
     gradient: "from-teal-400 to-cyan-500",
   },
   {
-    id: 6,
-    icon: "🌐",
-    title: "عمادة التعليم الإلكتروني",
-    titleEn: "Deanship of E-Learning",
-    description: "تشرف على برامج التعليم عن بعد وتطوير المنصات التعليمية الإلكترونية",
+    id: "scientific-research",
+    icon: "🔬",
+    title: "عمادة البحث العلمي",
+    titleEn: "Deanship of Scientific Research",
+    description: "تدعم وتشجع البحث العلمي والابتكار في مختلف المجالات الأكاديمية",
     responsibilities: [
-      "إدارة منصة التعليم الإلكتروني",
-      "التدريب على التقنيات الحديثة",
-      "تطوير المحتوى الرقمي",
-      "الدعم الفني للطلاب",
+      "دعم المشاريع البحثية",
+      "تمويل الأبحاث العلمية",
+      "نشر الأبحاث في المجلات العلمية",
+      "تنظيم الندوات البحثية",
     ],
-    email: "elearning@marwazi.edu",
-    phone: "+966 12 345 6794",
-    gradient: "from-indigo-400 to-blue-600",
+    email: "research@marwazi.edu",
+    phone: "+966 12 345 6791",
+    gradient: "from-green-400 to-emerald-500",
   },
   {
-    id: 7,
-    icon: "🤝",
-    title: "عمادة خدمة المجتمع",
-    titleEn: "Deanship of Community Service",
-    description: "تربط الجامعة بالمجتمع من خلال البرامج والمبادرات الاجتماعية",
-    responsibilities: [
-      "البرامج المجتمعية",
-      "الشراكات مع المؤسسات",
-      "التطوع والمبادرات",
-      "الدورات التدريبية",
-    ],
-    email: "community@marwazi.edu",
-    phone: "+966 12 345 6795",
-    gradient: "from-pink-400 to-rose-500",
-  },
-  {
-    id: 8,
-    icon: "💼",
-    title: "عمادة التطوير الأكاديمي",
-    titleEn: "Deanship of Academic Development",
-    description: "تعمل على تطوير البرامج الأكاديمية وتحسين جودة التعليم",
+    id: "development-quality",
+    icon: "⭐",
+    title: "عمادة التطوير والجودة",
+    titleEn: "Deanship of Development and Quality",
+    description: "تعمل على تطوير البرامج الأكاديمية وتحسين جودة التعليم وضمان التميز",
     responsibilities: [
       "تطوير المناهج الدراسية",
-      "تدريب أعضاء هيئة التدريس",
       "ضمان الجودة الأكاديمية",
       "التقييم والاعتماد",
+      "تحسين الخدمات التعليمية",
     ],
     email: "development@marwazi.edu",
     phone: "+966 12 345 6796",
     gradient: "from-yellow-400 to-orange-500",
+  },
+  {
+    id: "postgraduate-studies",
+    icon: "🎓",
+    title: "عمادة الدراسات العليا",
+    titleEn: "Deanship of Postgraduate Studies",
+    description: "تشرف على برامج الماجستير والدكتوراه وتطوير البحث العلمي في الجامعة",
+    responsibilities: [
+      "إدارة برامج الماجستير والدكتوراه",
+      "الإشراف على الأبحاث العلمية",
+      "تنظيم المؤتمرات العلمية",
+      "متابعة الطلاب الباحثين",
+    ],
+    email: "graduate@marwazi.edu",
+    phone: "+966 12 345 6790",
+    gradient: "from-purple-400 to-violet-500",
   },
 ];
 
@@ -156,6 +124,20 @@ export default function DeanshipsPage() {
     }
 
     return () => observer.disconnect();
+  }, []);
+
+  // Handle hash-based scrolling from navigation dropdown
+  useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      // Wait for content to render
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+    }
   }, []);
 
   const openModal = (deanship: any) => {
@@ -243,8 +225,9 @@ export default function DeanshipsPage() {
               {deanships.map((deanship, index) => (
                 <div
                   key={deanship.id}
+                  id={deanship.id}
                   onClick={() => openModal(deanship)}
-                  className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 border-2 border-transparent hover:border-green-300 overflow-hidden"
+                  className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-3 border-2 border-transparent hover:border-green-300 overflow-hidden scroll-mt-24"
                   style={{
                     opacity: isVisible ? 1 : 0,
                     transform: isVisible ? 'translateY(0)' : 'translateY(30px)',

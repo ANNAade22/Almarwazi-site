@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useSpring, animated } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
+import Logo from "../Logo";
 
 export default function FooterSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,7 +33,7 @@ export default function FooterSection() {
   });
 
   return (
-    <footer ref={sectionRef} className="bg-primary text-white">
+    <footer ref={sectionRef} className="relative overflow-hidden bg-primary text-white">
       <animated.div
         style={fadeIn}
         className="container mx-auto px-6 font-arabic"
@@ -40,7 +41,10 @@ export default function FooterSection() {
         <div className="py-16 grid grid-cols-1 md:grid-cols-4 gap-12 text-right">
           {/* About Section */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold mb-6">جامعة المروزي</h3>
+            <div className="flex items-center justify-end gap-4 mb-6">
+              <Logo className="justify-end" />
+              <h3 className="text-2xl font-bold">جامعة المروزي</h3>
+            </div>
             <p className="text-gray-300 leading-relaxed text-lg">
               رسالة الجامعة: الكتاب والسنه علي فهم سلف الامة بالفصحى العربيه
             </p>
@@ -147,6 +151,7 @@ export default function FooterSection() {
           <p>جميع الحقوق محفوظة لجامعة المروزي ©{new Date().getFullYear()}</p>
         </div>
       </animated.div>
+      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </footer>
   );
 }

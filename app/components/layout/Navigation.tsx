@@ -187,18 +187,23 @@ export default function Navigation() {
   ];
 
   const deanshipSections = [
-    { id: "overview", label: "نظرة عامة", icon: "🏛️" },
-    { id: "about-deanships", label: "نبذة عن العمادات", icon: "📝" },
-    { id: "deanships-list", label: "قائمة العمادات", icon: "📋" },
-    { id: "contact-info", label: "معلومات التواصل", icon: "☎️" },
+    {
+      id: "admission-registration",
+      label: "عمادة القبول والتسجيل",
+      icon: "📝",
+    },
+    { id: "student-affairs", label: "عمادة شؤون الطلاب", icon: "👥" },
+    { id: "libraries", label: "عمادة المكتبات", icon: "📚" },
+    { id: "scientific-research", label: "عمادة البحث العلمي", icon: "🔬" },
+    { id: "development-quality", label: "عمادة التطوير والجودة", icon: "⭐" },
+    { id: "postgraduate-studies", label: "عمادة الدراسات العليا", icon: "🎓" },
   ];
 
   const coursesSections = [
-    { id: "overview", label: "نظرة عامة", icon: "📘" },
-    { id: "categories", label: "تصنيفات البرامج", icon: "🏷️" },
-    { id: "statistics", label: "إحصائيات البرامج", icon: "📊" },
-    { id: "programs", label: "قائمة البرامج", icon: "🎓" },
-    { id: "admission", label: "القبول والتسجيل", icon: "📝" },
+    { id: "postgraduate-studies", label: "كلية الدراسات العليا", icon: "🎓" },
+    { id: "sharia-law", label: "كلية الشريعة والقانون", icon: "⚖️" },
+    { id: "dawah-religion", label: "كلية الدعوة وأصول الدين", icon: "🕌" },
+    { id: "education", label: "كلية التربية", icon: "📚" },
   ];
 
   // Handle navigation to about section with smooth scroll
@@ -796,7 +801,7 @@ export default function Navigation() {
           <div className="hidden xl:flex items-center space-x-reverse space-x-4">
             <Link
               href="/contact"
-              className={`px-4 py-1.5 rounded-lg font-medium transition-all duration-300 ${getTextColor()} ${getHoverColor()}`}
+              className={`px-4 py-1.5 rounded-lg font-medium transition-all duration-500 ease-in-out ${getTextColor()} hover:scale-105 hover:shadow-xl hover:bg-yellow-400 hover:text-gray-900 hover:border-yellow-400`}
               style={{
                 background: "transparent",
                 borderRadius: "50px",

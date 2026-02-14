@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Amiri } from "next/font/google";
 import Navigation from "./components/layout/Navigation";
+import Preloader from "./components/Preloader";
+import Chatbot from "./components/Chatbot";
 import { HeroUIProvider } from "./components/providers/HeroUIProvider";
 import StructuredData from "./components/StructuredData";
 
@@ -100,8 +102,10 @@ export default function RootLayout({
       </head>
       <body className={`${amiri.variable} bg-gray-100`}>
         <HeroUIProvider>
+          <Preloader />
           <Navigation />
           {children}
+          <Chatbot />
         </HeroUIProvider>
       </body>
     </html>

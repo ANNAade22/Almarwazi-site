@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function FooterSection() {
   return (
-    <footer className="bg-gradient-to-br from-primary to-primary/90 text-white w-full">
+    <footer className="bg-gradient-to-br from-primary to-primary/90 text-white w-full mb-0">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 md:py-16 lg:py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
