@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import SpotlightCard from "../ui/SpotlightCard";
 import { useEffect, useRef, useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
+import CourseCard from "./CourseCard";
 
 const courses = [
   {
@@ -84,35 +84,16 @@ export default function CoursesSection() {
         </animated.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {courses.map((course, index) => (
-            <animated.div
+            <CourseCard
               key={index}
-              style={useSpring({
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? "translateY(0)" : "translateY(40px)",
-                delay: 200 + index * 100,
-                config: { tension: 280, friction: 60 },
-              })}
-            >
-              <SpotlightCard className="group transition-all duration-300 hover:shadow-xl">
-                <div className="relative z-10 text-center p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-primary">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 sm:mb-6 leading-relaxed">
-                    {course.description}
-                  </p>
-                </div>
-              </SpotlightCard>
-            </animated.div>
+              course={course}
+              index={index}
+              isVisible={isVisible}
+            />
           ))}
         </div>
         <animated.div
-          style={useSpring({
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? "translateY(0)" : "translateY(40px)",
-            delay: 800,
-            config: { tension: 280, friction: 60 },
-          })}
+          style={headerAnimation}
           className="text-center mt-8 sm:mt-12 lg:mt-16"
         >
           <Link

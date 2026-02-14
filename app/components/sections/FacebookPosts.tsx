@@ -11,11 +11,11 @@ interface FacebookPost {
   full_picture: string;
   permalink_url: string;
   likes: {
-    data: any[];
+    data: unknown[];
     summary: { total_count: number };
   };
   comments: {
-    data: any[];
+    data: unknown[];
     summary: { total_count: number };
   };
 }

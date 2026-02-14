@@ -103,7 +103,7 @@ export default function ContactPage() {
               نحن هنا للإجابة على استفساراتك ومساعدتك
             </p>
             <p className="text-base sm:text-lg text-white/80">
-              Contact Us - We're Here to Help
+              Contact Us - We&apos;re Here to Help
             </p>
           </div>
         </div>
@@ -337,7 +337,7 @@ export default function ContactPage() {
                   </div>
                   <h3 className="text-2xl font-bold">ساعات العمل</h3>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
                     <div className="flex justify-between items-center">
@@ -345,14 +345,14 @@ export default function ContactPage() {
                       <span className="text-white/90">8:00 ص - 4:00 م</span>
                     </div>
                   </div>
-                  
+
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
                     <div className="flex justify-between items-center">
                       <span className="font-semibold text-lg">الجمعة</span>
                       <span className="text-red-200">مغلق</span>
                     </div>
                   </div>
-                  
+
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
                     <div className="flex justify-between items-center">
                       <span className="font-semibold text-lg">السبت</span>

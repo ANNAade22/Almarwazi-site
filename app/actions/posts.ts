@@ -13,7 +13,7 @@ export async function deletePost(postId: string) {
 
     if (error) throw error;
     return { success: true };
-  } catch (error: any) {
+  } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     console.error("Server action error:", error);
     return {
       success: false,
