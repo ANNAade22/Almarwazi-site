@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import FooterSection from "../FooterSection";
 
 // Album categories
@@ -14,8 +12,19 @@ const categories = [
   { id: "activities", name: "الأنشطة", nameEn: "Activities" },
 ];
 
+interface GalleryItem {
+  id: number;
+  type: "image" | "video";
+  category: string;
+  src: string;
+  title: string;
+  titleEn: string;
+  description: string;
+  thumbnail?: string;
+}
+
 // Gallery items (photos and videos)
-const galleryItems = [
+const galleryItems: GalleryItem[] = [
   {
     id: 1,
     type: "image",
@@ -103,7 +112,7 @@ const galleryItems = [
 
 export default function AlbumPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Filter items based on selected category
@@ -113,7 +122,7 @@ export default function AlbumPage() {
       : galleryItems.filter((item) => item.category === selectedCategory);
 
   // Open modal with selected item
-  const openModal = (item: any) => {
+  const openModal = (item: GalleryItem) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
@@ -177,11 +186,10 @@ export default function AlbumPage() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${
-                    selectedCategory === category.id
+                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${selectedCategory === category.id
                       ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg scale-105"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105"
-                  }`}
+                    }`}
                 >
                   <span className="block text-base">{category.name}</span>
                   <span className="block text-xs opacity-75">

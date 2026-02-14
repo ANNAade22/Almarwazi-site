@@ -6,7 +6,6 @@ import Logo from "../Logo";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isOverDarkBackground, setIsOverDarkBackground] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
   const [isDeanshipDropdownOpen, setIsDeanshipDropdownOpen] = useState(false);
@@ -103,20 +102,7 @@ export default function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-
-      // Check if scrolled past 100px to make navbar sticky
       setIsScrolled(scrollY > 100);
-
-      // Check if we're over the hero section (first 100vh)
-      const heroSection = document.querySelector("section");
-      if (heroSection) {
-        const rect = heroSection.getBoundingClientRect();
-        // If hero section is still visible (top is above 100px from top of viewport)
-        setIsOverDarkBackground(rect.top <= 100);
-      } else {
-        // If no hero section found, assume light background
-        setIsOverDarkBackground(false);
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -139,13 +125,13 @@ export default function Navigation() {
 
   // Close dropdown when on about page
   useEffect(() => {
-    if (isActive("/about")) {
+    if (pathname === "/about") {
       setIsAboutDropdownOpen(false);
     }
-    if (isActive("/deanships")) {
+    if (pathname === "/deanships") {
       setIsDeanshipDropdownOpen(false);
     }
-    if (isActive("/courses")) {
+    if (pathname === "/courses") {
       setIsCoursesDropdownOpen(false);
     }
     clearAboutCloseTimeout();
@@ -286,9 +272,8 @@ export default function Navigation() {
 
   return (
     <div
-      className={`${
-        isScrolled ? "fixed top-4 left-4 right-4 z-50" : "relative w-full z-50"
-      } transition-all duration-700 ease-out`}
+      className={`${isScrolled ? "fixed top-4 left-4 right-4 z-50" : "relative w-full z-50"
+        } transition-all duration-700 ease-out`}
       style={{
         background: isScrolled
           ? "rgba(255, 255, 255, 0.15)"
@@ -329,11 +314,10 @@ export default function Navigation() {
           <nav className="hidden lg:flex xl:hidden items-center space-x-reverse space-x-4">
             <Link
               href="/"
-              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                isActive("/")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${isActive("/")
+                ? getActiveColor()
+                : `${getTextColor()} ${getHoverColor()}`
+                }`}
             >
               الرئيسية
             </Link>
@@ -344,11 +328,10 @@ export default function Navigation() {
             >
               <Link
                 href="/about"
-                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                  isActive("/about")
-                    ? getActiveColor()
-                    : `${getTextColor()} ${getHoverColor()}`
-                }`}
+                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${isActive("/about")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+                  }`}
               >
                 عن الجامعة
               </Link>
@@ -395,11 +378,10 @@ export default function Navigation() {
             </div>
             <Link
               href="/album"
-              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                isActive("/album")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${isActive("/album")
+                ? getActiveColor()
+                : `${getTextColor()} ${getHoverColor()}`
+                }`}
             >
               الألبوم
             </Link>
@@ -410,11 +392,10 @@ export default function Navigation() {
             >
               <Link
                 href="/deanships"
-                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                  isActive("/deanships")
-                    ? getActiveColor()
-                    : `${getTextColor()} ${getHoverColor()}`
-                }`}
+                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${isActive("/deanships")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+                  }`}
               >
                 العمادات
               </Link>
@@ -465,11 +446,10 @@ export default function Navigation() {
             >
               <Link
                 href="/courses"
-                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                  isActive("/courses")
-                    ? getActiveColor()
-                    : `${getTextColor()} ${getHoverColor()}`
-                }`}
+                className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${isActive("/courses")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+                  }`}
               >
                 الكليات
               </Link>
@@ -515,11 +495,10 @@ export default function Navigation() {
             </div>
             <Link
               href="/contact"
-              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${
-                isActive("/contact")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+              className={`font-medium py-1 px-2 rounded-lg transition-all duration-300 text-sm ${isActive("/contact")
+                ? getActiveColor()
+                : `${getTextColor()} ${getHoverColor()}`
+                }`}
             >
               اتصل بنا
             </Link>
@@ -529,21 +508,20 @@ export default function Navigation() {
           <nav className="hidden xl:flex items-center space-x-reverse space-x-6">
             <Link
               href="/"
-              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                isActive("/")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${isActive("/")
+                ? getActiveColor()
+                : `${getTextColor()} ${getHoverColor()}`
+                }`}
               style={
                 isActive("/")
                   ? {
-                      background: "transparent",
-                      borderRadius: "50px",
-                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                      backdropFilter: "blur(15px)",
-                      WebkitBackdropFilter: "blur(15px)",
-                      border: "1px solid rgba(255, 255, 255, 0.3)",
-                    }
+                    background: "transparent",
+                    borderRadius: "50px",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                    backdropFilter: "blur(15px)",
+                    WebkitBackdropFilter: "blur(15px)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                  }
                   : {}
               }
             >
@@ -556,21 +534,20 @@ export default function Navigation() {
             >
               <Link
                 href="/about"
-                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/about")
-                    ? getActiveColor()
-                    : `${getTextColor()} ${getHoverColor()}`
-                }`}
+                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${isActive("/about")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+                  }`}
                 style={
                   isActive("/about")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -619,21 +596,20 @@ export default function Navigation() {
             </div>
             <Link
               href="/album"
-              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                isActive("/album")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${isActive("/album")
+                ? getActiveColor()
+                : `${getTextColor()} ${getHoverColor()}`
+                }`}
               style={
                 isActive("/album")
                   ? {
-                      background: "transparent",
-                      borderRadius: "50px",
-                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                      backdropFilter: "blur(15px)",
-                      WebkitBackdropFilter: "blur(15px)",
-                      border: "1px solid rgba(255, 255, 255, 0.3)",
-                    }
+                    background: "transparent",
+                    borderRadius: "50px",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                    backdropFilter: "blur(15px)",
+                    WebkitBackdropFilter: "blur(15px)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                  }
                   : {}
               }
             >
@@ -646,21 +622,20 @@ export default function Navigation() {
             >
               <Link
                 href="/deanships"
-                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/deanships")
-                    ? getActiveColor()
-                    : `${getTextColor()} ${getHoverColor()}`
-                }`}
+                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${isActive("/deanships")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+                  }`}
                 style={
                   isActive("/deanships")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -713,21 +688,20 @@ export default function Navigation() {
             >
               <Link
                 href="/courses"
-                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/courses")
-                    ? getActiveColor()
-                    : `${getTextColor()} ${getHoverColor()}`
-                }`}
+                className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${isActive("/courses")
+                  ? getActiveColor()
+                  : `${getTextColor()} ${getHoverColor()}`
+                  }`}
                 style={
                   isActive("/courses")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -775,21 +749,20 @@ export default function Navigation() {
             </div>
             <Link
               href="/contact"
-              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${
-                isActive("/contact")
-                  ? getActiveColor()
-                  : `${getTextColor()} ${getHoverColor()}`
-              }`}
+              className={`font-medium py-1 px-3 rounded-lg transition-all duration-300 ${isActive("/contact")
+                ? getActiveColor()
+                : `${getTextColor()} ${getHoverColor()}`
+                }`}
               style={
                 isActive("/contact")
                   ? {
-                      background: "transparent",
-                      borderRadius: "50px",
-                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                      backdropFilter: "blur(15px)",
-                      WebkitBackdropFilter: "blur(15px)",
-                      border: "1px solid rgba(255, 255, 255, 0.3)",
-                    }
+                    background: "transparent",
+                    borderRadius: "50px",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                    backdropFilter: "blur(15px)",
+                    WebkitBackdropFilter: "blur(15px)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                  }
                   : {}
               }
             >
@@ -867,22 +840,20 @@ export default function Navigation() {
             >
               <Link
                 href="/"
-                className={`font-medium py-2 ${
-                  isActive("/")
-                    ? `${getActiveColor()} font-semibold`
-                    : getTextColor()
-                }`}
+                className={`font-medium py-2 ${isActive("/")
+                  ? `${getActiveColor()} font-semibold`
+                  : getTextColor()
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 الرئيسية
               </Link>
               <div className="relative">
                 <button
-                  className={`font-medium py-2 w-full text-center ${
-                    isActive("/about")
-                      ? `${getActiveColor()} font-semibold`
-                      : getTextColor()
-                  }`}
+                  className={`font-medium py-2 w-full text-center ${isActive("/about")
+                    ? `${getActiveColor()} font-semibold`
+                    : getTextColor()
+                    }`}
                   onClick={() => {
                     clearAboutCloseTimeout();
                     clearDeanshipCloseTimeout();
@@ -912,22 +883,20 @@ export default function Navigation() {
               </div>
               <Link
                 href="/album"
-                className={`font-medium py-2 ${
-                  isActive("/album")
-                    ? `${getActiveColor()} font-semibold`
-                    : getTextColor()
-                }`}
+                className={`font-medium py-2 ${isActive("/album")
+                  ? `${getActiveColor()} font-semibold`
+                  : getTextColor()
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 الألبوم
               </Link>
               <div className="relative">
                 <button
-                  className={`font-medium py-2 w-full text-center ${
-                    isActive("/deanships")
-                      ? `${getActiveColor()} font-semibold`
-                      : getTextColor()
-                  }`}
+                  className={`font-medium py-2 w-full text-center ${isActive("/deanships")
+                    ? `${getActiveColor()} font-semibold`
+                    : getTextColor()
+                    }`}
                   onClick={() => {
                     clearAboutCloseTimeout();
                     clearDeanshipCloseTimeout();
@@ -956,11 +925,10 @@ export default function Navigation() {
               </div>
               <div className="relative">
                 <button
-                  className={`font-medium py-2 w-full text-center ${
-                    isActive("/courses")
-                      ? `${getActiveColor()} font-semibold`
-                      : getTextColor()
-                  }`}
+                  className={`font-medium py-2 w-full text-center ${isActive("/courses")
+                    ? `${getActiveColor()} font-semibold`
+                    : getTextColor()
+                    }`}
                   onClick={() => {
                     clearAboutCloseTimeout();
                     clearDeanshipCloseTimeout();
@@ -989,11 +957,10 @@ export default function Navigation() {
               </div>
               <Link
                 href="/contact"
-                className={`font-medium py-2 ${
-                  isActive("/contact")
-                    ? `${getActiveColor()} font-semibold`
-                    : getTextColor()
-                }`}
+                className={`font-medium py-2 ${isActive("/contact")
+                  ? `${getActiveColor()} font-semibold`
+                  : getTextColor()
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 اتصل بنا

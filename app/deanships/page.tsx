@@ -103,8 +103,20 @@ const deanships = [
   },
 ];
 
+interface Deanship {
+  id: string;
+  icon: string;
+  title: string;
+  titleEn: string;
+  description: string;
+  responsibilities: string[];
+  email: string;
+  phone: string;
+  gradient: string;
+}
+
 export default function DeanshipsPage() {
-  const [selectedDeanship, setSelectedDeanship] = useState<any>(null);
+  const [selectedDeanship, setSelectedDeanship] = useState<Deanship | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -140,7 +152,7 @@ export default function DeanshipsPage() {
     }
   }, []);
 
-  const openModal = (deanship: any) => {
+  const openModal = (deanship: Deanship) => {
     setSelectedDeanship(deanship);
     setIsModalOpen(true);
   };

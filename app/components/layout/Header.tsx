@@ -1,7 +1,7 @@
 "use client";
 import Logo from "../Logo";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
@@ -32,21 +32,20 @@ export default function Header() {
             <nav className="hidden lg:flex items-center space-x-reverse space-x-8">
               <Link
                 href="/"
-                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/")
+                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${isActive("/")
                     ? "text-primary"
                     : "text-gray-700 hover:text-[#93a694]"
-                }`}
+                  }`}
                 style={
                   isActive("/")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -54,21 +53,20 @@ export default function Header() {
               </Link>
               <Link
                 href="/about"
-                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/about")
+                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${isActive("/about")
                     ? "text-primary"
                     : "text-gray-700 hover:text-[#93a694]"
-                }`}
+                  }`}
                 style={
                   isActive("/about")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -76,21 +74,20 @@ export default function Header() {
               </Link>
               <Link
                 href="/courses"
-                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/courses")
+                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${isActive("/courses")
                     ? "text-primary"
                     : "text-gray-700 hover:text-[#93a694]"
-                }`}
+                  }`}
                 style={
                   isActive("/courses")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -98,21 +95,20 @@ export default function Header() {
               </Link>
               <Link
                 href="/blog"
-                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/blog")
+                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${isActive("/blog")
                     ? "text-primary"
                     : "text-gray-700 hover:text-[#93a694]"
-                }`}
+                  }`}
                 style={
                   isActive("/blog")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -120,21 +116,20 @@ export default function Header() {
               </Link>
               <Link
                 href="/contact"
-                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-                  isActive("/contact")
+                className={`font-medium py-2 px-3 rounded-lg transition-all duration-300 ${isActive("/contact")
                     ? "text-primary"
                     : "text-gray-700 hover:text-[#93a694]"
-                }`}
+                  }`}
                 style={
                   isActive("/contact")
                     ? {
-                        background: "transparent",
-                        borderRadius: "50px",
-                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(15px)",
-                        WebkitBackdropFilter: "blur(15px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                      }
+                      background: "transparent",
+                      borderRadius: "50px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(15px)",
+                      WebkitBackdropFilter: "blur(15px)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                    }
                     : {}
                 }
               >
@@ -221,53 +216,48 @@ export default function Header() {
             >
               <Link
                 href="/"
-                className={`font-medium py-3 ${
-                  isActive("/") ? "text-primary font-semibold" : "text-gray-700"
-                }`}
+                className={`font-medium py-3 ${isActive("/") ? "text-primary font-semibold" : "text-gray-700"
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 الرئيسية
               </Link>
               <Link
                 href="/about"
-                className={`font-medium py-3 ${
-                  isActive("/about")
+                className={`font-medium py-3 ${isActive("/about")
                     ? "text-primary font-semibold"
                     : "text-gray-700"
-                }`}
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 عن الجامعة
               </Link>
               <Link
                 href="/courses"
-                className={`font-medium py-3 ${
-                  isActive("/courses")
+                className={`font-medium py-3 ${isActive("/courses")
                     ? "text-primary font-semibold"
                     : "text-gray-700"
-                }`}
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 الدورات
               </Link>
               <Link
                 href="/blog"
-                className={`font-medium py-3 ${
-                  isActive("/blog")
+                className={`font-medium py-3 ${isActive("/blog")
                     ? "text-primary font-semibold"
                     : "text-gray-700"
-                }`}
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 المدونة
               </Link>
               <Link
                 href="/contact"
-                className={`font-medium py-3 ${
-                  isActive("/contact")
+                className={`font-medium py-3 ${isActive("/contact")
                     ? "text-primary font-semibold"
                     : "text-gray-700"
-                }`}
+                  }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 اتصل بنا

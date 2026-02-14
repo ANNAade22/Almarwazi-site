@@ -48,49 +48,43 @@ export default function CountUp({
     return 1 - Math.pow(1 - t, 3);
   };
 
-  const animate = (timestamp: number) => {
-    if (!startTimeRef.current) {
-      startTimeRef.current = timestamp;
-    }
-
-    const elapsed = timestamp - startTimeRef.current;
-    const progress = Math.min(elapsed / (duration * 1000), 1);
-    const easedProgress = easeOutCubic(progress);
-
-    const currentValue = from + (to - from) * easedProgress;
-
-    if (ref.current) {
-      const hasDecimals = maxDecimals > 0;
-      const options: Intl.NumberFormatOptions = {
-        useGrouping: !!separator,
-        minimumFractionDigits: hasDecimals ? maxDecimals : 0,
-        maximumFractionDigits: hasDecimals ? maxDecimals : 0,
-      };
-
-      const formattedNumber = Intl.NumberFormat("en-US", options).format(
-        currentValue
-      );
-      ref.current.textContent = separator
-        ? formattedNumber.replace(/,/g, separator)
-        : formattedNumber;
-    }
-
-    if (progress < 1) {
-      animationRef.current = requestAnimationFrame(animate);
-    } else {
-      if (onEnd) {
-        onEnd();
+  useEffect(() => {
+    const animate = (timestamp: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
       }
-    }
-  };
 
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.textContent = String(direction === "down" ? to : from);
-    }
-  }, [from, to, direction]);
+      const elapsed = timestamp - startTimeRef.current;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+      const easedProgress = easeOutCubic(progress);
 
-  useEffect(() => {
+      const currentValue = from + (to - from) * easedProgress;
+
+      if (ref.current) {
+        const hasDecimals = maxDecimals > 0;
+        const options: Intl.NumberFormatOptions = {
+          useGrouping: !!separator,
+          minimumFractionDigits: hasDecimals ? maxDecimals : 0,
+          maximumFractionDigits: hasDecimals ? maxDecimals : 0,
+        };
+
+        const formattedNumber = Intl.NumberFormat("en-US", options).format(
+          currentValue
+        );
+        ref.current.textContent = separator
+          ? formattedNumber.replace(/,/g, separator)
+          : formattedNumber;
+      }
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        if (onEnd) {
+          onEnd();
+        }
+      }
+    };
+
     if (startWhen) {
       if (onStart) {
         onStart();
@@ -108,7 +102,7 @@ export default function CountUp({
         }
       };
     }
-  }, [startWhen, delay, onStart]);
+  }, [startWhen, delay, onStart, duration, from, to, maxDecimals, separator, onEnd]);
 
   return <span className={className} ref={ref} />;
 }

@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import Image from "next/image";
 import { useSpring, animated } from "@react-spring/web";
 import { useEffect, useState, useRef } from "react";
@@ -94,32 +93,11 @@ export default function HeroSection() {
     );
   };
 
-  const fadeInFromRight = useSpring({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateX(0)" : "translateX(100px)",
-    delay: 50,
-    config: { tension: 380, friction: 40 },
-  });
-
-  const fadeInFromLeft = useSpring({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateX(0)" : "translateX(-100px)",
-    delay: 100,
-    config: { tension: 380, friction: 40 },
-  });
-
   const imageAnimation = useSpring({
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? "scale(1)" : "scale(0.9)",
     delay: 150,
     config: { tension: 380, friction: 20 },
-  });
-
-  const buttonAnimation = useSpring({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateY(0)" : "translateY(20px)",
-    delay: 250,
-    config: { tension: 380, friction: 40 },
   });
 
   return (
@@ -143,9 +121,8 @@ export default function HeroSection() {
             {heroImages.map((imageSrc, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  index === currentImageIndex ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute inset-0 transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+                  }`}
               >
                 <Image
                   src={imageSrc}
@@ -245,11 +222,10 @@ export default function HeroSection() {
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentImageIndex
-                    ? "bg-white scale-125"
-                    : "bg-white/50 hover:bg-white/75"
-                }`}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentImageIndex
+                  ? "bg-white scale-125"
+                  : "bg-white/50 hover:bg-white/75"
+                  }`}
                 aria-label={`Go to image ${index + 1}`}
               />
             ))}

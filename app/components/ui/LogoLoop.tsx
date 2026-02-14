@@ -9,21 +9,21 @@ import "./LogoLoop.css";
 
 export type LogoItem =
   | {
-      node: React.ReactNode;
-      href?: string;
-      title?: string;
-      ariaLabel?: string;
-    }
+    node: React.ReactNode;
+    href?: string;
+    title?: string;
+    ariaLabel?: string;
+  }
   | {
-      src: string;
-      alt?: string;
-      href?: string;
-      title?: string;
-      srcSet?: string;
-      sizes?: string;
-      width?: number;
-      height?: number;
-    };
+    src: string;
+    alt?: string;
+    href?: string;
+    title?: string;
+    srcSet?: string;
+    sizes?: string;
+    width?: number;
+    height?: number;
+  };
 
 export interface LogoLoopProps {
   logos: LogoItem[];
@@ -75,7 +75,8 @@ const useResizeObserver = (
     return () => {
       observers.forEach((observer) => observer?.disconnect());
     };
-  }, dependencies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [callback, ...dependencies]);
 };
 
 const useImageLoader = (
@@ -115,7 +116,8 @@ const useImageLoader = (
         img.removeEventListener("error", handleImageLoad);
       });
     };
-  }, dependencies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onLoad, ...dependencies]);
 };
 
 const useAnimationLoop = (
@@ -181,6 +183,7 @@ const useAnimationLoop = (
       }
       lastTimestampRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetVelocity, isHovered, pauseOnHover]); // Removed seqWidth from dependencies to prevent restart
 };
 
@@ -308,6 +311,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
           {item.node}
         </span>
       ) : (
+        /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src={item.src}
           srcSet={item.srcSet}

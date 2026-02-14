@@ -84,7 +84,7 @@ const mockPosts = [
   },
 ];
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Facebook Page ID for Almarwazi University
     const FACEBOOK_PAGE_ID = "Almarwazi252";

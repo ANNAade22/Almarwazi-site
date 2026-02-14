@@ -121,7 +121,7 @@ export default function CoursesPage() {
               <p className="text-lg text-gray-700">Colleges and Deanships</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {colleges.map((college, index) => (
+              {colleges.map((college) => (
                 <div
                   key={college.id}
                   id={college.id}

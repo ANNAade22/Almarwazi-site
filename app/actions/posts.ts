@@ -13,11 +13,12 @@ export async function deletePost(postId: string) {
 
     if (error) throw error;
     return { success: true };
-  } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  } catch (error: unknown) {
     console.error("Server action error:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
     return {
       success: false,
-      error: error.message,
+      error: errorMessage,
     };
   }
 }

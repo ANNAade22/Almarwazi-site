@@ -1,35 +1,13 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
-import { useSpring, animated } from "@react-spring/web";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import FooterSection from "../FooterSection";
 import { BookOpen, Target, Award, Users, Building2, Lightbulb } from "lucide-react";
 
 export default function AboutPage() {
-  const [activeSection, setActiveSection] = useState(0);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
-  useEffect(() => {
-    const observers = sectionsRef.current.map((section, index) => {
-      if (!section) return null;
-      
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(index);
-          }
-        },
-        { threshold: 0.3 }
-      );
-      
-      observer.observe(section);
-      return observer;
-    });
-
-    return () => {
-      observers.forEach((observer) => observer?.disconnect());
-    };
-  }, []);
+  // Handle hash navigation with smooth scroll
 
   // Handle hash navigation with smooth scroll
   useEffect(() => {
@@ -52,7 +30,7 @@ export default function AboutPage() {
           <div className="absolute top-10 right-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 left-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
@@ -84,7 +62,7 @@ export default function AboutPage() {
       </section>
 
       {/* 1. كلمة رئيس الجامعة */}
-      <section 
+      <section
         id="president-message"
         ref={(el) => { if (el) sectionsRef.current[0] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-white"
@@ -117,7 +95,7 @@ export default function AboutPage() {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="mt-1 p-3 bg-primary/10 rounded-lg">
@@ -143,7 +121,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. نشأة الجامعة */}
-      <section 
+      <section
         id="establishment"
         ref={(el) => { if (el) sectionsRef.current[1] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
@@ -175,7 +153,7 @@ export default function AboutPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
                 <p>
                   تأسست جامعة المروزي بهدف توفير تعليم عالي الجودة يستند إلى المبادئ والقيم الإسلامية. نحن نسعى جاهدين لتطوير جيل من القادة المتميزين الذين يجمعون بين المعرفة الأكاديمية والقيم الأخلاقية.
@@ -193,7 +171,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. الرسالة والرؤية */}
-      <section 
+      <section
         id="mission-vision"
         ref={(el) => { if (el) sectionsRef.current[2] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-white"
@@ -246,7 +224,7 @@ export default function AboutPage() {
       </section>
 
       {/* 4. الأهداف العامة للجامعة */}
-      <section 
+      <section
         id="goals"
         ref={(el) => { if (el) sectionsRef.current[3] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
@@ -295,7 +273,7 @@ export default function AboutPage() {
       </section>
 
       {/* 5. الميزات والخصائص */}
-      <section 
+      <section
         id="features"
         ref={(el) => { if (el) sectionsRef.current[4] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"
@@ -398,7 +376,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6. المبادئ الأساسية */}
-      <section 
+      <section
         id="principles"
         ref={(el) => { if (el) sectionsRef.current[5] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-white"
@@ -451,7 +429,7 @@ export default function AboutPage() {
                   className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 border-2 border-gray-100 hover:border-green-300 transition-all duration-300 hover:shadow-xl overflow-hidden"
                 >
                   <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${principle.color} opacity-10 rounded-bl-full`}></div>
-                  
+
                   <div className="relative">
                     <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${principle.color} text-white mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                       {principle.icon}
@@ -467,7 +445,7 @@ export default function AboutPage() {
       </section>
 
       {/* 7. الهيكل الإداري */}
-      <section 
+      <section
         id="structure"
         ref={(el) => { if (el) sectionsRef.current[6] = el; }}
         className="py-12 md:py-16 lg:py-20 bg-[#e3fae5]"

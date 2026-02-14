@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Facebook Page ID for Almarwazi University
     const pageId = "Almarwazi252";
