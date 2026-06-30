@@ -2,6 +2,9 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import FooterSection from "../FooterSection";
+import { universityContent } from "@/lib/universityContent";
+
+const { contact } = universityContent;
 
 // Deanship data - matching the dropdown menu
 const deanships = [
@@ -17,8 +20,8 @@ const deanships = [
       "إصدار الوثائق والشهادات",
       "إدارة السجلات الأكاديمية",
     ],
-    email: "admission@marwazi.edu",
-    phone: "+966 12 345 6789",
+    email: contact.email,
+    phone: contact.primaryPhone,
     gradient: "from-blue-400 to-cyan-500",
   },
   {
@@ -33,8 +36,8 @@ const deanships = [
       "الخدمات الطلابية",
       "الأندية الطلابية",
     ],
-    email: "students@marwazi.edu",
-    phone: "+966 12 345 6792",
+    email: contact.email,
+    phone: contact.phones[1] || contact.primaryPhone,
     gradient: "from-orange-400 to-red-500",
   },
   {
@@ -49,8 +52,8 @@ const deanships = [
       "الخدمات الإلكترونية",
       "البحث والاستعارة",
     ],
-    email: "library@marwazi.edu",
-    phone: "+966 12 345 6793",
+    email: contact.email,
+    phone: contact.phones[2] || contact.primaryPhone,
     gradient: "from-teal-400 to-cyan-500",
   },
   {
@@ -65,8 +68,8 @@ const deanships = [
       "نشر الأبحاث في المجلات العلمية",
       "تنظيم الندوات البحثية",
     ],
-    email: "research@marwazi.edu",
-    phone: "+966 12 345 6791",
+    email: contact.email,
+    phone: contact.landline,
     gradient: "from-green-400 to-emerald-500",
   },
   {
@@ -81,8 +84,8 @@ const deanships = [
       "التقييم والاعتماد",
       "تحسين الخدمات التعليمية",
     ],
-    email: "development@marwazi.edu",
-    phone: "+966 12 345 6796",
+    email: contact.email,
+    phone: contact.phones[3] || contact.primaryPhone,
     gradient: "from-yellow-400 to-orange-500",
   },
   {
@@ -97,8 +100,8 @@ const deanships = [
       "تنظيم المؤتمرات العلمية",
       "متابعة الطلاب الباحثين",
     ],
-    email: "graduate@marwazi.edu",
-    phone: "+966 12 345 6790",
+    email: contact.email,
+    phone: contact.phones[4] || contact.primaryPhone,
     gradient: "from-purple-400 to-violet-500",
   },
 ];
@@ -309,13 +312,13 @@ export default function DeanshipsPage() {
                   <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                 </svg>
-                <span className="text-gray-700 font-medium">info@marwazi.edu</span>
+                <span className="text-gray-700 font-medium">{contact.email}</span>
               </div>
               <div className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
                 <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                <span className="text-gray-700 font-medium">+966 12 345 6789</span>
+                <span className="text-gray-700 font-medium">{contact.primaryPhone}</span>
               </div>
             </div>
           </div>

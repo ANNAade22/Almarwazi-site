@@ -30,33 +30,38 @@ function formatTime(ts: number): string {
 const WELCOME_MESSAGE: Message = {
     role: 'assistant',
     content:
-        'مرحباً بك في جامعة المروزي! 🎓\nأنا مساعد المروزي الذكي، كيف يمكنني مساعدتك اليوم?\n\nWelcome to Almarwazi University! How can I help you?\n\nKu soo dhawoow Jaamacadda Almarwazi! Sideen kugu caawin karaa?',
+        'مرحباً بك في جامعة المروزي! 🎓\nأنا مساعد المروزي، اسألني عن الجامعة والكليات والقبول والفروع والتواصل.\n\nWelcome to Almarwazi University! Ask about programs, admission, campuses, and contact.\n\nKu soo dhawoow Jaamacadda Almarwazi! Weydii barnaamijyada, gelitaanka, goobaha, iyo xiriirka.',
     timestamp: Date.now(),
 };
 
-// Rotating quick action sets
+function freshWelcome(): Message {
+    return { ...WELCOME_MESSAGE, timestamp: Date.now() };
+}
+
+// Rotating quick action sets (matched to FAQ topics)
 const QUICK_ACTION_SETS = [
     [
         { label: '🎓 الكليات', text: 'ما هي كليات الجامعة؟' },
         { label: '📞 التواصل', text: 'كيف أتواصل مع الجامعة؟' },
-        { label: '🌍 الفروع', text: 'أين فروع الجامعة حول العالم؟' },
-        { label: '📋 القبول', text: 'كيف يمكنني التسجيل في الجامعة؟' },
+        { label: '🌍 الفروع', text: 'أين فروع الجامعة؟' },
+        { label: '📋 القبول', text: 'ما شروط القبول؟' },
     ],
     [
-        { label: '👨‍🏫 الأساتذة', text: 'من هم أساتذة الجامعة؟' },
-        { label: '🏛️ العمادات', text: 'ما هي عمادات الجامعة؟' },
-        { label: '🤝 الشراكات', text: 'ما هي الجامعات الشريكة؟' },
+        { label: '📚 البرامج', text: 'ما هي البرامج الدراسية؟' },
+        { label: '✨ الميزات', text: 'ما هي ميزات الجامعة؟' },
         { label: '📖 الرؤية', text: 'ما هي رؤية ورسالة الجامعة؟' },
+        { label: '🎯 الأهداف', text: 'ما هي أهداف الجامعة؟' },
     ],
     [
         { label: '🏫 عن الجامعة', text: 'أخبرني عن جامعة المروزي' },
-        { label: '🎯 الأهداف', text: 'ما هي أهداف الجامعة؟' },
-        { label: '📚 المكتبة', text: 'هل تتوفر مكتبة في الجامعة؟' },
-        { label: '🧑‍🎓 رئيس الجامعة', text: 'من هو رئيس الجامعة؟' },
+        { label: '🧑‍🎓 الرئيس', text: 'من هو رئيس الجامعة؟' },
+        { label: '📊 الإحصائيات', text: 'ما إحصائيات الجامعة؟' },
+        { label: '📋 التسجيل', text: 'كيف يمكنني التسجيل في الجامعة؟' },
     ],
 ];
 
-const STORAGE_KEY = 'marwazi-chatbot-history';
+// Legacy key — remove any old saved chats from previous versions
+const LEGACY_STORAGE_KEY = 'marwazi-chatbot-history';
 
 // Parse follow-up suggestions from AI response
 function extractFollowUps(text: string): string[] {
@@ -117,31 +122,20 @@ export default function Chatbot() {
     const inputRef = useRef<HTMLInputElement>(null);
     const hasShownTooltip = useRef(false);
 
-    // Load chat history from localStorage
+    // Clear legacy localStorage from older chatbot versions (no persistence)
     useEffect(() => {
         try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    setMessages(parsed);
-                }
-            }
+            localStorage.removeItem(LEGACY_STORAGE_KEY);
         } catch {
-            // Ignore localStorage errors
+            // Ignore storage errors
         }
     }, []);
 
-    // Save chat history to localStorage
-    useEffect(() => {
-        if (messages.length > 1) {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(messages.slice(-50)));
-            } catch {
-                // Ignore storage full errors
-            }
-        }
-    }, [messages]);
+    const resetChat = useCallback(() => {
+        setMessages([freshWelcome()]);
+        setFollowUps([]);
+        setInput('');
+    }, []);
 
     // Show tooltip after 4 seconds for first-time visitors
     useEffect(() => {
@@ -171,10 +165,7 @@ export default function Chatbot() {
     }, [isOpen]);
 
     const clearChat = () => {
-        const freshWelcome: Message = { ...WELCOME_MESSAGE, timestamp: Date.now() };
-        setMessages([freshWelcome]);
-        setFollowUps([]);
-        localStorage.removeItem(STORAGE_KEY);
+        resetChat();
     };
 
     const sendMessage = async (text?: string) => {
@@ -274,6 +265,9 @@ export default function Chatbot() {
     };
 
     const toggleChat = () => {
+        if (isOpen && messages.length > 1) {
+            resetChat();
+        }
         setIsOpen(!isOpen);
         setShowTooltip(false);
     };
@@ -542,7 +536,7 @@ export default function Chatbot() {
                                     </svg>
                                 </motion.button>
                             </div>
-                            <p className="chatbot-powered-by">مدعوم بالذكاء الاصطناعي 🧠</p>
+                            <p className="chatbot-powered-by">مساعد الجامعة التلقائي 📋</p>
                         </div>
                     </motion.div>
                 )}

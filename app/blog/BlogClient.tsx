@@ -1,8 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// import FooterSection from "@/components/sections/FooterSection";
 
 interface Post {
   id: string;
@@ -18,78 +17,8 @@ interface Post {
 
 export default function BlogClient() {
   const [activeCategory, setActiveCategory] = useState("الكل");
-  const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [categories, setCategories] = useState(["الكل"]);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setIsLoading(true);
-      try {
-        // Check if Supabase environment variables are configured
-        if (
-          !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-          !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-        ) {
-          console.warn(
-            "Supabase environment variables not configured. Blog functionality disabled."
-          );
-          setPosts([]);
-          setCategories(["الكل"]);
-          return;
-        }
-
-        const { createClient } = await import("@supabase/supabase-js");
-        const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL,
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-        );
-
-        const { data, error } = await supabase
-          .from("posts")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error) throw error;
-
-        const formattedPosts =
-          data?.map((post) => ({
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            excerpt: post.excerpt,
-            category: post.category || "عام",
-            author: post.author,
-            image: post.image || "/default-post-image.jpg",
-            created_at: post.created_at,
-            status: post.status,
-          })) || [];
-
-        // Extract unique categories with proper handling and sorting
-        const uniqueCategories = [
-          "الكل",
-          ...Array.from(
-            new Set(
-              formattedPosts
-                .filter((post) => post.category?.trim())
-                .map((post) => post.category)
-            )
-          ).sort((a, b) => a.localeCompare(b, "ar")),
-        ];
-
-        setPosts(formattedPosts);
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setPosts([]);
-        setCategories(["الكل"]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+  const posts: Post[] = [];
+  const categories = ["الكل"];
 
   const filteredPosts =
     activeCategory === "الكل"
@@ -131,24 +60,7 @@ export default function BlogClient() {
             </div>
           </div>
 
-          {isLoading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-            </div>
-          ) : !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-            !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? (
-            <div className="text-center py-20">
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 max-w-md mx-auto">
-                <div className="text-yellow-600 text-4xl mb-4">⚠️</div>
-                <h3 className="text-xl font-bold text-yellow-800 mb-2">
-                  المدونة غير متاحة حالياً
-                </h3>
-                <p className="text-yellow-700">
-                  تم تعطيل المدونة مؤقتاً. يرجى المحاولة لاحقاً.
-                </p>
-              </div>
-            </div>
-          ) : filteredPosts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-600 text-lg">
                 لا توجد منشورات في هذه الفئة حالياً
@@ -203,7 +115,6 @@ export default function BlogClient() {
           )}
         </div>
       </section>
-      {/* <FooterSection /> */}
     </main>
   );
 }

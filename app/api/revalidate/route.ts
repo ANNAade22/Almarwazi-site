@@ -17,7 +17,6 @@ export async function GET(request: NextRequest) {
 
     // Also revalidate related paths
     if (path === "/blog") {
-      revalidatePath("/blog/admin");
       revalidatePath("/");
     }
 

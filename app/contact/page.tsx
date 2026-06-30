@@ -1,7 +1,18 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
 import FooterSection from "../FooterSection";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { universityContent } from "@/lib/universityContent";
+
+const BranchMap = dynamic(() => import("../components/sections/BranchMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[450px] bg-primary/5 rounded-2xl flex items-center justify-center">
+      <p className="text-gray-500">جارٍ تحميل الخريطة...</p>
+    </div>
+  ),
+});
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -68,19 +79,22 @@ export default function ContactPage() {
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "العنوان",
-      details: ["مقديشوا، الصومال", "الحرم الجامعي الرئيسي"],
+      details: [
+        `${universityContent.contact.address}`,
+        `صندوق بريد: ${universityContent.contact.poBox}`,
+      ],
       gradient: "from-blue-400 to-cyan-500",
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "البريد الإلكتروني",
-      details: ["info@almarwazi.edu", "admissions@almarwazi.edu"],
+      details: [universityContent.contact.email],
       gradient: "from-green-400 to-emerald-500",
     },
     {
       icon: <Phone className="w-6 h-6" />,
       title: "الهاتف",
-      details: ["966-11-000-0000+", "966-11-000-0001+"],
+      details: universityContent.contact.phones.slice(0, 3),
       gradient: "from-purple-400 to-violet-500",
     },
   ];
@@ -269,7 +283,7 @@ export default function ContactPage() {
                           value={formData.phone}
                           onChange={handleChange}
                           className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
-                          placeholder="+966 XX XXX XXXX"
+                          placeholder="+252 XX XXX XXXX"
                         />
                       </div>
                       <div>
@@ -385,21 +399,34 @@ export default function ContactPage() {
               <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
                 موقعنا على الخريطة
               </h2>
-              <p className="text-lg text-gray-700">زورنا في الحرم الجامعي الرئيسي</p>
+              <p className="text-lg text-gray-700">
+                فروعنا في الصومال وجنوب أفريقيا والكويت وكينيا وأوغندا
+              </p>
             </div>
 
-            <div className="bg-white rounded-2xl overflow-hidden shadow-xl border-4 border-white h-[450px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127356.21295435993!2d45.24351962320662!3d2.0371281066307366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3d58425955ce6b53%3A0x5c2da92d6f4bf467!2sMogadishu%2C%20Somalia!5e0!3m2!1sen!2s!4v1653913936963!5m2!1sen!2s"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Mogadishu Map"
-                className="w-full h-full"
-              ></iframe>
+            <div className="bg-white rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+              <BranchMap variant="global" />
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
+              {universityContent.globalBranches.map((branch) => (
+                <div
+                  key={branch.id}
+                  className="flex items-start gap-3 bg-white rounded-xl p-4 border border-primary/10"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <MapPin className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-primary text-sm">
+                      {branch.name}
+                    </h3>
+                    <p className="text-gray-600 text-xs mt-0.5">
+                      {branch.location}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

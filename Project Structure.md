@@ -29,7 +29,6 @@ CoursesList.jsx
 BlogPreview.jsx
 
 /lib
-/supabase.js (Client config)
 /hooks
 useAuth.js
 useBlog.js

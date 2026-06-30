@@ -15,8 +15,17 @@ module.exports = {
         amiri: ["var(--font-amiri)", "serif"],
       },
       colors: {
-        primary: "#2e4832",
+        primary: {
+          DEFAULT: "#2e4832",
+          light: "#3d6b45",
+          dark: "#22341f",
+        },
         secondary: "#93a694",
+        accent: {
+          DEFAULT: "#b08a2e",
+          light: "#c9a227",
+        },
+        sand: "#f6f1e7",
       },
     },
   },

@@ -1,45 +1,56 @@
 "use client";
 import dynamic from "next/dynamic";
+import { MapPin } from "lucide-react";
+import { universityContent } from "@/lib/universityContent";
+import SectionHeading from "../ui/SectionHeading";
 
-// Dynamically import BranchMap to avoid SSR issues with Leaflet
 const BranchMap = dynamic(() => import("./BranchMap"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[500px] bg-gray-200 rounded-2xl flex items-center justify-center">
-      <p className="text-gray-500">Loading map...</p>
+    <div className="w-full h-[500px] bg-primary/5 rounded-2xl flex items-center justify-center">
+      <p className="text-gray-500">جارٍ تحميل الخريطة...</p>
     </div>
   ),
 });
 
-export default function BranchLocations() {
+export default function BranchLocations({ showMap = true }: { showMap?: boolean }) {
   return (
     <section
-      className="py-12 md:py-16 lg:py-20 relative"
+      className="py-10 md:py-14 relative"
       style={{ backgroundColor: "#e3fae5" }}
     >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-8 md:mb-12 relative">
-            {/* Decorative top accent */}
-            <div className="flex items-center justify-center mb-6">
-              <div className="h-px w-16 bg-gradient-to-r from-transparent to-green-400"></div>
-              <div className="mx-4 w-3 h-3 rotate-45 bg-gradient-to-br from-green-400 to-blue-500"></div>
-              <div className="h-px w-16 bg-gradient-to-l from-transparent to-blue-400"></div>
+          <SectionHeading
+            eyebrow="فروعها وعناوينها"
+            title="كمبسات الجامعة في الصومال"
+            subtitle="خمسة كمبسات تخدم الطلاب في مختلف الولايات الصومالية"
+            className="mb-6 md:mb-8"
+          />
+
+          {showMap && (
+            <div className="relative w-full mb-8 md:mb-12" style={{ zIndex: 1 }}>
+              <BranchMap />
             </div>
+          )}
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-primary relative inline-block">
-              جامعة المروزي حول العالم
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-blue-500 to-green-500 rounded-full opacity-30"></div>
-            </h2>
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed mt-6">
-              Marwazi University Around the World
-            </p>
-          </div>
-
-          {/* Map Component */}
-          <div className="relative w-full" style={{ zIndex: 1 }}>
-            <BranchMap />
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 max-w-6xl mx-auto">
+            {universityContent.branches.map((branch) => (
+              <div
+                key={branch.id}
+                className="flex items-start gap-3 bg-white rounded-xl p-5 border border-primary/10 hover:border-accent/40 transition-colors"
+              >
+                <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-primary text-sm sm:text-base">
+                    {branch.name}
+                  </h3>
+                  <p className="text-gray-600 text-sm mt-0.5">{branch.location}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

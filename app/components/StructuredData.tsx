@@ -1,40 +1,38 @@
+import { universityContent } from "@/lib/universityContent";
+
 export default function StructuredData() {
+  const { contact, name, introduction } = universityContent;
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    "name": "جامعة المروزي",
-    "alternateName": "Almarwazi University",
-    "url": "https://marwazi-university.vercel.app",
-    "logo": "https://marwazi-university.vercel.app/logo.png",
-    "description": "مؤسسة تعليمية رائدة في الصومال تقدم تعليماً عالي الجودة يستند إلى المبادئ الإسلامية",
-    "address": {
+    name: name,
+    alternateName: "Almarwazi University",
+    url: `https://${contact.website}`,
+    description: introduction,
+    address: {
       "@type": "PostalAddress",
-      "addressLocality": "مقديشو",
-      "addressCountry": "الصومال"
+      addressLocality: "مقديشو",
+      addressCountry: "الصومال",
+      postOfficeBoxNumber: contact.poBox,
     },
-    "contactPoint": {
+    contactPoint: {
       "@type": "ContactPoint",
-      "telephone": "+966-11-000-0000",
-      "contactType": "Admissions",
-      "email": "info@almarwazi.edu",
-      "availableLanguage": ["Arabic", "English", "Somali"]
+      telephone: contact.primaryPhone,
+      contactType: "Admissions",
+      email: contact.email,
+      availableLanguage: ["Arabic", "English", "Somali"],
     },
-    "sameAs": [
+    sameAs: [
       "https://www.facebook.com/Almarwazi252",
-      "https://twitter.com/almarwazi"
-    ]
+    ],
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "جامعة المروزي",
-    "url": "https://marwazi-university.vercel.app",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://marwazi-university.vercel.app/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    name: name,
+    url: `https://${contact.website}`,
   };
 
   return (
@@ -50,4 +48,3 @@ export default function StructuredData() {
     </>
   );
 }
-

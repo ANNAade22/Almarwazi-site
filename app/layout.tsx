@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Amiri } from "next/font/google";
 import Navigation from "./components/layout/Navigation";
+import ContactTopBar from "./components/layout/ContactTopBar";
 import Preloader from "./components/Preloader";
 import Chatbot from "./components/Chatbot";
 import { HeroUIProvider } from "./components/providers/HeroUIProvider";
 import StructuredData from "./components/StructuredData";
+import { universityContent } from "@/lib/universityContent";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -27,10 +29,10 @@ const amiri = Amiri({
 export const metadata: Metadata = {
   metadataBase: new URL('https://marwazi-university.vercel.app'),
   title: {
-    default: "جامعة المروزي | Almarwazi University - التعليم الإسلامي العالي في الصومال",
-    template: "%s | جامعة المروزي"
+    default: `${universityContent.name} | Almarwazi University`,
+    template: `%s | ${universityContent.nameShort}`
   },
-  description: "جامعة المروزي - مؤسسة تعليمية رائدة في الصومال تقدم تعليماً عالي الجودة يستند إلى المبادئ الإسلامية. برامج أكاديمية متميزة في الدراسات الإسلامية واللغة العربية وعلوم القرآن.",
+  description: universityContent.introduction,
   keywords: [
     "جامعة المروزي",
     "Almarwazi University",
@@ -103,6 +105,7 @@ export default function RootLayout({
       <body className={`${amiri.variable} bg-gray-100`}>
         <HeroUIProvider>
           <Preloader />
+          <ContactTopBar />
           <Navigation />
           {children}
           <Chatbot />

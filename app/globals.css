@@ -59,11 +59,6 @@ body {
   padding-right: var(--container-padding);
 }
 
-/* Improve spacing for main content areas */
-main {
-  padding-bottom: 3rem;
-}
-
 /* Add proper spacing for content sections */
 .content-section {
   margin-bottom: 2.5rem;

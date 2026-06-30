@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useSpring, animated } from "@react-spring/web";
 import { useEffect, useState, useRef } from "react";
 import CountUp from "../ui/CountUp";
-import { GraduationCap, Users, Building2, UserCheck } from "lucide-react";
+import { universityContent } from "@/lib/universityContent";
 
 interface StatItem {
   number: number;
   label: string;
-  icon: React.ReactNode;
-  color: string;
+  suffix?: string;
 }
 
 export default function HeroSection() {
@@ -18,7 +18,6 @@ export default function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Array of hero images - you can add more images here
   const heroImages = [
     "/heroPic0.jpg",
     "/heroPic1.jpg",
@@ -27,40 +26,19 @@ export default function HeroSection() {
   ];
 
   const stats: StatItem[] = [
-    {
-      number: 15000,
-      label: "عدد الخريجين",
-      icon: <GraduationCap className="w-8 h-8 text-blue-500" />,
-      color: "from-blue-500 to-blue-600",
-    },
-    {
-      number: 450,
-      label: "عدد المقيدين",
-      icon: <Users className="w-8 h-8 text-green-500" />,
-      color: "from-green-500 to-green-600",
-    },
-    {
-      number: 8,
-      label: "عدد الموظفين",
-      icon: <Building2 className="w-8 h-8 text-purple-500" />,
-      color: "from-purple-500 to-purple-600",
-    },
-    {
-      number: 1200,
-      label: "عدد الفروع",
-      icon: <UserCheck className="w-8 h-8 text-orange-500" />,
-      color: "from-orange-500 to-orange-600",
-    },
+    { number: universityContent.stats.graduates, label: "عدد الخريجين", suffix: "+" },
+    { number: universityContent.stats.enrolled, label: "عدد المقيدين" },
+    { number: universityContent.stats.staff, label: "عدد الموظفين" },
+    { number: universityContent.stats.campuses, label: "عدد الكمبسات" },
   ];
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (sectionRef.current) {
         const rect = sectionRef.current.getBoundingClientRect();
         const scrollPosition = window.scrollY;
         if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-          setScrollY(scrollPosition * 0.15); // Adjust the multiplier for scroll speed
+          setScrollY(scrollPosition * 0.15);
         }
       }
     };
@@ -73,16 +51,14 @@ export default function HeroSection() {
     setIsVisible(true);
   }, []);
 
-  // Auto-play image carousel
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
-  // Function to manually change image
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
   };
@@ -100,13 +76,19 @@ export default function HeroSection() {
     config: { tension: 380, friction: 20 },
   });
 
+  const titleAnimation = useSpring({
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? "translateY(0)" : "translateY(30px)",
+    delay: 200,
+    config: { tension: 280, friction: 60 },
+  });
+
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-150px)] overflow-hidden"
       style={{ marginTop: "0", paddingTop: "0" }}
     >
-      {/* Full Background Image Carousel */}
       <div className="absolute inset-0">
         <animated.div
           style={{
@@ -116,17 +98,17 @@ export default function HeroSection() {
           }}
           className="relative h-full w-full"
         >
-          {/* Image Container with Transition */}
           <div className="relative h-full w-full overflow-hidden">
             {heroImages.map((imageSrc, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`absolute inset-0 transition-opacity duration-1000 ${
+                  index === currentImageIndex ? "opacity-100" : "opacity-0"
+                }`}
               >
                 <Image
                   src={imageSrc}
-                  alt={`جامعة الإمام محمد بن نصر المروزي - صورة ${index + 1}`}
+                  alt={`${universityContent.name} - صورة ${index + 1}`}
                   fill
                   className="object-cover"
                   priority={index === 0}
@@ -135,23 +117,45 @@ export default function HeroSection() {
             ))}
           </div>
         </animated.div>
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/40"></div>
-        {/* Gradient transition to AboutSection */}
+        <div className="absolute inset-0 bg-black/50"></div>
         <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 md:h-24 bg-gradient-to-t from-[#e3fae5] to-transparent"></div>
       </div>
 
-      {/* Main Content Overlay */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-8 py-20">
-        <div className="max-w-4xl mx-auto">
-          {/* Statistics Section */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-8 sm:mb-12 lg:mb-16 px-4">
+      <div className="relative z-10 min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-150px)] flex flex-col items-center justify-center text-center px-4 sm:px-8 py-16 sm:py-20">
+        <div className="max-w-5xl mx-auto w-full">
+          <animated.div style={titleAnimation} className="mb-10 sm:mb-14">
+            <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-accent-light/50 text-accent-light text-xs sm:text-sm font-semibold tracking-wide">
+              تأسست عام {universityContent.founded}م — مقديشو، الصومال
+            </span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-5 sm:mb-7 drop-shadow-lg leading-snug">
+              {universityContent.name}
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-white/85 font-medium mb-8 sm:mb-10">
+              {universityContent.tagline}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <Link
+                href="/contact"
+                className="inline-block px-8 sm:px-10 py-3 sm:py-3.5 bg-accent text-white font-bold rounded-lg text-base sm:text-lg hover:bg-accent-light transition-colors shadow-lg"
+              >
+                سجل الآن
+              </Link>
+              <Link
+                href="/courses"
+                className="inline-block px-8 sm:px-10 py-3 sm:py-3.5 border border-white/40 text-white font-semibold rounded-lg text-base sm:text-lg hover:bg-white/10 transition-colors"
+              >
+                البرامج الدراسية
+              </Link>
+            </div>
+          </animated.div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 px-2 sm:px-4 max-w-4xl mx-auto">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center bg-white/15 backdrop-blur-sm rounded-lg p-3 sm:p-4 lg:p-6 border border-white/30 shadow-xl"
+                className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4 lg:p-6 border border-white/15"
               >
-                <div className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-accent-light mb-1 drop-shadow">
                   <CountUp
                     from={0}
                     to={stat.number}
@@ -161,9 +165,9 @@ export default function HeroSection() {
                     startWhen={isVisible}
                     className="count-up-text"
                   />
-                  {stat.number >= 1000 && "+"}
+                  {stat.suffix || (stat.number >= 1000 ? "+" : "")}
                 </div>
-                <div className="text-xs sm:text-sm text-blue-100 font-medium">
+                <div className="text-xs sm:text-sm text-white/75 font-medium">
                   {stat.label}
                 </div>
               </div>
@@ -172,10 +176,8 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Image Carousel Navigation */}
       {heroImages.length > 1 && (
         <>
-          {/* Previous/Next Buttons */}
           <button
             onClick={goToPreviousImage}
             className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/20 backdrop-blur-sm rounded-full p-3 hover:bg-white/30 transition-all duration-300"
@@ -216,16 +218,16 @@ export default function HeroSection() {
             </svg>
           </button>
 
-          {/* Dots Indicator */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
             {heroImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentImageIndex
-                  ? "bg-white scale-125"
-                  : "bg-white/50 hover:bg-white/75"
-                  }`}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentImageIndex
+                    ? "bg-white scale-125"
+                    : "bg-white/50 hover:bg-white/75"
+                }`}
                 aria-label={`Go to image ${index + 1}`}
               />
             ))}

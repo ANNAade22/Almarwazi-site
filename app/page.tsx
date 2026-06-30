@@ -1,27 +1,20 @@
-
-
 import HeroSection from "./components/sections/HeroSection";
-import AboutSection from "./components/sections/AboutSection";
-import PartnerLogos from "./components/sections/PartnerLogos";
-import BranchLocations from "./components/sections/BranchLocations";
-// import CoursesSection from "./components/sections/CoursesSection";
-// import FacebookPosts from "./components/sections/FacebookPosts";
-// import PartnerUniversities from "../components/sections/PartnerUniversities";
-
-import FooterSection from "./FooterSection";
+import CoursesSection from "./components/sections/CoursesSection";
+import InstitutionalGridSection from "./components/sections/InstitutionalGridSection";
+import CampusGallerySection from "./components/sections/CampusGallerySection";
 import OurTeachers from "./components/sections/OurTeachers";
+import EnrollmentCTA from "./components/sections/EnrollmentCTA";
+import FooterSection from "./FooterSection";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <AboutSection />
-      <PartnerLogos />
-      {/* <CoursesSection /> */}
-      {/* PartnerUniversities removed per request */}
-      {/* <FacebookPosts /> */}
-      <BranchLocations />
+      <CoursesSection />
+      <InstitutionalGridSection />
+      <CampusGallerySection />
       <OurTeachers />
+      <EnrollmentCTA />
       <FooterSection />
     </main>
   );

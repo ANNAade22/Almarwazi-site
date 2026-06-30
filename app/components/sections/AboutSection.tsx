@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSpring, animated } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
 import Masonry from "../ui/Masonry";
+import { universityContent } from "@/lib/universityContent";
 
 export default function AboutSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -80,40 +81,27 @@ export default function AboutSection() {
               style={fadeIn}
               className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none"
             >
-              <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center px-4 py-6 sm:py-8 bg-white/80 backdrop-blur-md rounded-xl shadow-lg pointer-events-auto">
-                {/* Decorative top accent */}
-                <div className="flex items-center justify-center mb-4">
-                  <div className="h-px w-12 sm:w-16 bg-gradient-to-r from-transparent to-green-400"></div>
-                  <div className="mx-3 sm:mx-4 w-2.5 sm:w-3 h-2.5 sm:h-3 rotate-45 bg-gradient-to-br from-green-400 to-blue-500"></div>
-                  <div className="h-px w-12 sm:w-16 bg-gradient-to-l from-transparent to-blue-400"></div>
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-primary relative inline-block">
-                  عن جامعة المروزي
-                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-green-500 via-blue-500 to-green-500 rounded-full opacity-30"></div>
+              <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-center px-6 py-8 sm:py-10 bg-white/85 backdrop-blur-md rounded-2xl shadow-xl pointer-events-auto">
+                <span className="text-sm font-semibold tracking-wide text-accent mb-3 block">
+                  تعريفها وتأسيسها
+                </span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-primary">
+                  {universityContent.nameShort}
                 </h2>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 lg:mb-8">
-                  About Marwazi University
+                <span className="mx-auto block h-1 w-16 rounded-full bg-accent mb-5" />
+                <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-7 leading-relaxed">
+                  {universityContent.introduction}
                 </p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
-                  جامعة المروزي ملتزمة بتقديم تعليم عالي الجودة يستند إلى
-                  المبادئ والقيم الإسلامية. مهمتنا هي إعداد الطلاب ليصبحوا قادة
-                  في مجالاتهم مع الحفاظ على أسس أخلاقية قوية.
-                </p>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed">
-                  مع مرافق حديثة وأعضاء هيئة تدريس ذوي خبرة، نوفر بيئة مواتية
-                  للتعلم والنمو الشخصي.
-                </p>
-                <div className="flex flex-wrap gap-4 justify-center">
+                <div className="flex flex-wrap gap-3 sm:gap-4 justify-center">
                   <Link
                     href="/about"
-                    className="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors inline-block text-sm sm:text-base lg:text-lg"
+                    className="px-7 sm:px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-light transition-colors inline-block text-sm sm:text-base"
                   >
                     اكتشف المزيد
                   </Link>
                   <Link
                     href="/album"
-                    className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary border-2 border-primary rounded-lg font-medium hover:bg-primary hover:text-white transition-colors inline-block text-sm sm:text-base lg:text-lg"
+                    className="px-7 sm:px-8 py-3 bg-transparent text-primary border border-primary/30 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-block text-sm sm:text-base"
                   >
                     البوم الجامعة
                   </Link>

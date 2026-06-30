@@ -1,6 +1,9 @@
+import { universityContent } from "@/lib/universityContent";
+
 export const siteConfig = {
-  name: "جامعة المروزي",
-  description: "تمكين العقول، تشكيل المستقبل",
+  name: universityContent.name,
+  nameShort: universityContent.nameShort,
+  description: universityContent.introduction,
   mainNav: [
     {
       title: "الرئيسية",
@@ -28,8 +31,7 @@ export const siteConfig = {
       mobileOnly: false,
     },
   ],
-  // Add mobile configuration
-  mobileBreakpoint: 768, // px
-  mobileMenuPosition: "right", // 'right' or 'left'
+  mobileBreakpoint: 768,
+  mobileMenuPosition: "right" as const,
   enableMobileMenu: true,
 };
